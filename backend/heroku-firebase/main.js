@@ -1079,22 +1079,22 @@ const cycleOneMinRR = async () => {
         // wait for the two operations above to complete before proceding.
         Promise.all([times, files])
             .then((timeMapArrs) => {
-                // updates mapping of filenames and times. 
+                // update mapping of filenames and times. 
                 oneMinRRTime = timeMapArrs[1];
-                // prepares an array of files to download.
+                // prepare an array of files to download.
                 return prepArrDown(timeMapArrs[0], timeMapArrs[1])
             })
-            // downloads files specified in the provided array.
+            // download files specified in the provided array.
             .then((sourceArr) => { return downloadArr(sourceArr, "1minrr") })
-            // unzips all archives.
+            // unzip all archives.
             .then(() => { return unzipDir(oneMinRRTargetPath) })
-            // parses files to array.
+            // parse files to array.
             .then(() => { return parseDir(oneMinRRTargetPath) })
             // transform into array of objects to insert.
             .then(async (measuresArr) => { return transformObjArr(measuresArr, "1minrr") })
             // insert into database.
             .then((objArr) => { return insertArrIntoDbFb("measurements", objArr) })
-            // cleans up working directory.
+            // clean up working directory.
             .then(() => { cleanupDir(oneMinRRTargetPath) });
 
     } catch (err) {
@@ -1122,22 +1122,22 @@ const cycleTenMinRR = async () => {
         // wait for the two operations above to complete before proceding.
         Promise.all([times, files])
             .then((timeMapArrs) => {
-                // updates mapping of filenames and times. 
+                // update mapping of filenames and times. 
                 tenMinRRTime = timeMapArrs[1];
-                // prepares an array of files to download.
+                // prepare an array of files to download.
                 return prepArrDown(timeMapArrs[0], timeMapArrs[1])
             })
-            // downloads files specified in the provided array.
+            // download files specified in the provided array.
             .then((sourceArr) => { return downloadArr(sourceArr, "10minrr") })
-            // unzips all archives.
+            // unzip all archives.
             .then(() => { return unzipDir(tenMinRRTargetPath) })
-            // parses files to array.
+            // parse files to array.
             .then(() => { return parseDir(tenMinRRTargetPath) })
             // transform into array of objects to insert.
             .then(async (measuresArr) => { return transformObjArr(measuresArr, "10minrr") })
             // insert into database.
             .then((objArr) => { return insertArrIntoDbFb("measurements", objArr) })
-            // cleans up working directory.
+            // clean up working directory.
             .then(() => { cleanupDir(tenMinRRTargetPath) });
 
     } catch (err) {
@@ -1164,22 +1164,22 @@ const cycleTenMinFF = async () => {
         // wait for the two operations above to complete before proceding.
         Promise.all([times, files])
             .then((timeMapArrs) => {
-                // updates mapping of filenames and times. 
+                // update mapping of filenames and times. 
                 tenMinFFTime = timeMapArrs[1];
-                // prepares an array of files to download.
+                // prepare an array of files to download.
                 return prepArrDown(timeMapArrs[0], timeMapArrs[1])
             })
-            // downloads files specified in the provided array.
+            // download files specified in the provided array.
             .then((sourceArr) => { return downloadArr(sourceArr, "10minff") })
-            // unzips all archives.
+            // unzip all archives.
             .then(() => { return unzipDir(tenMinFFTargetPath) })
-            // parses files to array.
+            // parse files to array.
             .then(() => { return parseDir(tenMinFFTargetPath) })
             // transform into array of objects to insert.
             .then(async (measuresArr) => { return transformObjArr(measuresArr, "10minff") })
             // insert into database.
             .then((objArr) => { return insertArrIntoDbFb("measurements", objArr) })
-            // cleans up working directory.
+            // clean up working directory.
             .then(() => { cleanupDir(tenMinFFTargetPath) });
 
     } catch (err) {
@@ -1206,22 +1206,22 @@ const cycleTenMinTU = async () => {
         // wait for the two operations above to complete before proceding.
         Promise.all([times, files])
             .then((timeMapArrs) => {
-                // updates mapping of filenames and times. 
+                // update mapping of filenames and times. 
                 tenMinTUTime = timeMapArrs[1];
-                // prepares an array of files to download.
+                // prepare an array of files to download.
                 return prepArrDown(timeMapArrs[0], timeMapArrs[1])
             })
             // downloads files specified in the provided array.
             .then((sourceArr) => { return downloadArr(sourceArr, "10mintu") })
-            // unzips all archives.
+            // unzip all archives.
             .then(() => { return unzipDir(tenMinTUTargetPath) })
-            // parses files to array.
+            // parse files to array.
             .then(() => { return parseDir(tenMinTUTargetPath) })
             // transform into array of objects to insert.
             .then(async (measuresArr) => { return transformObjArr(measuresArr, "10mintu") })
             // insert into database.
             .then((objArr) => { return insertArrIntoDbFb("measurements", objArr) })
-            // cleans up working directory.
+            // clean up working directory.
             .then(() => { cleanupDir(tenMinTUTargetPath) });
 
     } catch (err) {
@@ -1248,22 +1248,22 @@ const cycleMos = async () => {
         // wait for the two operations above to complete before proceding.
         Promise.all([times, files])
             .then((timeMapArrs) => {
-                // updates mapping of filenames and times. 
+                // update mapping of filenames and times. 
                 mosTime = timeMapArrs[1];
-                // prepares an array of files to download.
+                // prepare an array of files to download.
                 return prepArrDown(timeMapArrs[0], timeMapArrs[1])
             })
             // downloads files specified in the provided array.
             .then((sourceArr) => { return downloadArr(sourceArr, "mos") })
-            // unzips all archives.
+            // unzip all archives.
             .then(() => { return unzipDir(mosTargetPath) })
-            // parses files to array.
+            // parse files to array.
             .then(() => { return parseDir(mosTargetPath) })
             // transform into array of objects to insert.
             .then(async (mosArr) => { return transformObjArr(mosArr, "mos") })
             // insert into database.
             .then((objArr) => { return insertArrIntoDbFb("forecasts", objArr) })
-            // cleans up working directory.
+            // clean up working directory.
             .then(() => { cleanupDir(mosTargetPath) });
 
     } catch (err) {
@@ -1273,7 +1273,7 @@ const cycleMos = async () => {
 
 /**
  * main cycle. keeps database up to date with data from ftp server.
- * repeats once every minute.
+ * repeats once every 10 minutes.
  */
 const mainCycle = async () => {
     try {
