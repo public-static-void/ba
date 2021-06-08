@@ -465,7 +465,7 @@ const trackValues = async (ref, type) => {
  * 
  * @param {Object} chart  the chart object to add data to.
  * @param {String} label  the label of the dataset to add data to.
- * @param {String} entry the data entry to add.
+ * @param {String} entry  the data entry to add.
  */
 const chartAddData = (chart, label, entry) => {
     try {
@@ -538,7 +538,7 @@ const chartUpdateData = (chart, label, entry) => {
  * 
  * @param {Object} chart  the chart object to remove data from.
  * @param {String} label  the label of the dataset to remove data from.
- * @param {String} entry the entry to remove from the dataset.
+ * @param {String} entry  the entry to remove from the dataset.
  */
 const chartRemoveData = (chart, label, entry) => {
     try {
@@ -575,7 +575,7 @@ const chartRemoveData = (chart, label, entry) => {
  *
  * @param {String} chartType   type of the chart, e.g. line or bar.
  * @param {String} chartLabel1 label for the first dataset of the chart.
- * @param {String} chartLabel1 label for the second dataset of the chart.
+ * @param {String} chartLabel2 label for the second dataset of the chart.
  * @param {Array}  dataArr1    array containing the data for the first 
  *                             dataset of the chart (y axis).
  * @param {Array}  dataArr2    array containing the data for the second 
@@ -588,12 +588,15 @@ const chartRemoveData = (chart, label, entry) => {
  * @param {String} bdColor1    color of for the first dataset the chart 
  *                             borders.
  * @param {String} bgColor2    color of for the second dataset the chart.
- * @param {String} bdColor3    color of for the second dataset the chart 
+ * @param {String} bdColor2    color of for the second dataset the chart 
  *                             borders.
- *
+ * @param {String} minTick     minimum value to show on y axis.
+ * @param {String} maxTick     maximum value to show on y axis.
+ * @param {String} stepSize    interval of values between steps on y axis.
+ * 
  * @returns {Object} chart configuration object.
  */
-const createChartConfig = (chartType, chartLabel1, chartLabel2, dataArr1, dataArr2, xLabels1, xLabels2, bgColor1, bdColor1, bgColor2, bdColor2) => {
+const createChartConfig = (chartType, chartLabel1, chartLabel2, dataArr1, dataArr2, xLabels1, xLabels2, bgColor1, bdColor1, bgColor2, bdColor2, minTick, maxTick, stepSize) => {
     try {
 
         // crate configuration object.
@@ -654,8 +657,10 @@ const createChartConfig = (chartType, chartLabel1, chartLabel2, dataArr1, dataAr
                         gridLines: {
                             display: true
                         },
+                        display: true,
                         bounds: 'data',
                         ticks: {
+                            source: 'auto',
                             beginAtZero: true
                         }
 
@@ -668,6 +673,9 @@ const createChartConfig = (chartType, chartLabel1, chartLabel2, dataArr1, dataAr
                             labelString: 'Werte'
                         },
                         ticks: {
+                            min: minTick,
+                            max: maxTick,
+                            stepSize: stepSize,
                             source: 'data',
                             beginAtZero: false
                         }
@@ -980,12 +988,12 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
         // convert degrees to radiants.
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
-        //
+        // apply the haversine formula.
         const a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
             Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        //
+        // angle C of the haversine formula.
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         // distance in kilometers.
         const distance = R * c;
@@ -1040,7 +1048,6 @@ const setStationPlaceholder = (dwdId) => {
         const statMenu = document.getElementById("station-search-menu");
 
         // set the entry in the input field to station name.
-        //statMenu.setAttribute("value", stationName);
         statMenu.value = stationName;
 
     } catch (err) {
@@ -1104,10 +1111,6 @@ const geoQuery = (position) => {
         console.log(err);
     } // endtry
 } // endfun
-
-// ---------------
-// --- STAGING ---
-// ---------------
 
 /**
  * helper function. sets the time select input field to a certain value.
@@ -1174,9 +1177,9 @@ const toggleActiveTime = (entry) => {
 
 // create chart configurations.
 r101ChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, blueColor, blueColor, lightBlueColor, lightBlueColor);
-rsChartConfig = createChartConfig("bar", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, blueColor, blueColor, lightBlueColor, lightBlueColor);
+rsChartConfig = createChartConfig("bar", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, blueColor, blueColor, lightBlueColor, lightBlueColor, 0);
 ffChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, redColor, redColor, lightRedColor, lightRedColor);
-ddChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, redColor, redColor, lightRedColor, lightRedColor);
+ddChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, redColor, redColor, lightRedColor, lightRedColor, 0, 360, 60);
 ppChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, redColor, redColor, lightRedColor, lightRedColor);
 ttChartConfig = createChartConfig("scatter", dwdLabel, mosLabel, [], [], timeLabels, timeLabels, redColor, redColor, lightRedColor, lightRedColor);
 
@@ -1190,7 +1193,6 @@ ttChart = new Chart(ttContext, ttChartConfig);
 
 /**
  * continuesly tracks stations changes in the database.
- *
  */
 const trackStations = async () => {
     try {
