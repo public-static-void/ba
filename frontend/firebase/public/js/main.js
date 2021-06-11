@@ -93,9 +93,6 @@ const timeLabels = [];
 
 // current state of selected time and stations.
 let currentTimeIntervals = [];
-let currentDwdEndTime = "";
-let currentMosStartTime = "";
-let isToday = true;
 
 let currentDwdId = "";
 let currentMosId = "";
@@ -214,9 +211,6 @@ const tttToTt = (ttt) => {
 const trackValues = async (ref, type) => {
     try {
 
-        // reset possible listeners.
-        ref.off();
-
         // get the start and end time interval limits from global variables.
         const startTime = "" + currentTimeIntervals[0];
         const endTime = "" + currentTimeIntervals[1];
@@ -224,7 +218,11 @@ const trackValues = async (ref, type) => {
         // check for type of values to track and perform appropriate steps.
         if (type == "mosRrl1c") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
             // TODO: if 1minrr use rrl1cToRs(), if 10minrr use rrl1cToRws().
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -243,6 +241,10 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "mosR101") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.            
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -261,6 +263,10 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "mosFf") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -279,6 +285,10 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "mosDd") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -297,6 +307,10 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "mosPppp") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -315,6 +329,10 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "mosTtt") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
@@ -334,12 +352,15 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "dwdRs") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -355,12 +376,15 @@ const trackValues = async (ref, type) => {
             // TODO: decide whether to use 1 or 10 min rr.
         } else if (type == "dwdRws") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -375,12 +399,15 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "dwdFf") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ffChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -395,12 +422,15 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "dwdDd") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ddChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -415,12 +445,15 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "dwdPp") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ppChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -435,12 +468,15 @@ const trackValues = async (ref, type) => {
 
         } else if (type == "dwdTt") {
 
+            // reset possible listeners.
+            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+
+            // register new listeners for changes.
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ttChart, dwdLabel, { x: time, y: data.val().value });
                 // track the time of the last measurement.
-                currentDwdEndTime = "" + time;
             });
             ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
                 // convert timestamp to date object.
@@ -467,7 +503,7 @@ const trackValues = async (ref, type) => {
  * @param {String} label  the label of the dataset to add data to.
  * @param {String} entry  the data entry to add.
  */
-const chartAddData = (chart, label, entry) => {
+const chartAddData = async (chart, label, entry) => {
     try {
 
         // initialize chart arrays that hold data.
@@ -501,7 +537,7 @@ const chartAddData = (chart, label, entry) => {
  * @param {String} label the label of the dataset to update.
  * @param {String} entry the entry to update in the dataset.
  */
-const chartUpdateData = (chart, label, entry) => {
+const chartUpdateData = async (chart, label, entry) => {
     try {
 
         // initialize chart arrays that hold data.
@@ -540,7 +576,7 @@ const chartUpdateData = (chart, label, entry) => {
  * @param {String} label  the label of the dataset to remove data from.
  * @param {String} entry  the entry to remove from the dataset.
  */
-const chartRemoveData = (chart, label, entry) => {
+const chartRemoveData = async (chart, label, entry) => {
     try {
 
         // initialize chart arrays that hold data.
@@ -630,7 +666,7 @@ const createChartConfig = (chartType, chartLabel1, chartLabel2, dataArr1, dataAr
                     showLine: true,
                     borderWidth: 2,
                     lineTention: 3,
-                    barThickness: 10,
+                    barThickness: 5,
                 }]
             },
             options: {
@@ -776,13 +812,10 @@ const getTimeLimits = (day) => {
         let resultTime = [];
 
         if (day == "today") {
-            isToday = true;
             resultTime.push(beginningOfToday.getTime(), endOfToday.getTime());
         } else if (day == "tomorrow") {
-            isToday = false;
             resultTime.push(beginningOfToday.getTime() + DAY_IN_MS, endOfToday.getTime() + DAY_IN_MS);
         } else if (day == "dayaftertomorrow") {
-            isToday = false;
             resultTime.push(beginningOfToday.getTime() + 2 * DAY_IN_MS, endOfToday.getTime() + 2 * DAY_IN_MS);
         }// endif
 
@@ -1006,7 +1039,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 } // endfun
 
 /**
- * helper function. converts degrees to raidants.
+ * helper function. converts degrees to radiants.
  * 
  * @param {Number}   deg degrees.
  * @returns {Number} radiants.
@@ -1024,8 +1057,8 @@ const deg2rad = (deg) => {
 } // endfun
 
 /**
-  * helper function. sets the station select input field to a certain value.
-  * 
+ * helper function. sets the station select input field to a certain value.
+ * 
  * @param {String} dwdId the id of the station to show the name of in the 
  *                       input field.
  */
@@ -1131,6 +1164,11 @@ const setTimePlaceholder = (time) => {
     } // endtry
 } // endfun
 
+/**
+ * helper function. toggles CSS active class of station menu dropdown DOM element.
+ * 
+ * @param {Object} entry DOM element of the station menu dropdown entry.
+ */
 const toggleActiveStation = (entry) => {
     try {
 
@@ -1150,6 +1188,11 @@ const toggleActiveStation = (entry) => {
     } // endtry
 } // endfun
 
+/**
+ * helper function. toggles CSS active class of time menu dropdown DOM element.
+ * 
+ * @param {Object} entry DOM element of the time menu dropdown entry.
+ */
 const toggleActiveTime = (entry) => {
     try {
 

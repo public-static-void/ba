@@ -14,7 +14,6 @@
   "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.2",
-    "baqend": "^2.14.1",
     "firebase": "^8.2.6",
     "firebase-admin": "^9.4.2",
     "underscore": "1.12.0",
