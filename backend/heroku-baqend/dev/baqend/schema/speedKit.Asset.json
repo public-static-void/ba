@@ -1,0 +1,107 @@
+{
+  "class": "/db/speedKit.Asset",
+  "superClass": "/db/Object",
+  "acl": {
+    "load": {
+      "/db/Role/2": "allow"
+    },
+    "insert": {
+      "*": "deny"
+    },
+    "update": {
+      "*": "deny"
+    },
+    "delete": {
+      "/db/Role/2": "allow"
+    },
+    "query": {
+      "/db/Role/2": "allow"
+    },
+    "schemaAdd": {
+      "*": "deny"
+    },
+    "schemaReplace": {
+      "*": "deny"
+    },
+    "schemaSubclass": {
+      "*": "deny"
+    }
+  },
+  "fields": {
+    "url": {
+      "name": "url",
+      "type": "/db/String",
+      "order": 0
+    },
+    "extendedURL": {
+      "name": "extendedURL",
+      "type": "/db/String",
+      "order": 1
+    },
+    "revalidatedAt": {
+      "name": "revalidatedAt",
+      "type": "/db/DateTime",
+      "order": 2
+    },
+    "expiresAt": {
+      "name": "expiresAt",
+      "type": "/db/DateTime",
+      "order": 3
+    },
+    "eTag": {
+      "name": "eTag",
+      "type": "/db/String",
+      "order": 4
+    },
+    "lastModified": {
+      "name": "lastModified",
+      "type": "/db/DateTime",
+      "order": 5
+    },
+    "contentType": {
+      "name": "contentType",
+      "type": "/db/String",
+      "order": 6
+    },
+    "mediaType": {
+      "name": "mediaType",
+      "type": "/db/String",
+      "order": 7
+    },
+    "contentHash": {
+      "name": "contentHash",
+      "type": "/db/String",
+      "order": 8
+    },
+    "variation": {
+      "name": "variation",
+      "type": "/db/String",
+      "order": 9
+    },
+    "origin": {
+      "name": "origin",
+      "type": "/db/String",
+      "order": 10
+    },
+    "revalidationIDs": {
+      "name": "revalidationIDs",
+      "type": "/db/collection.Set[/db/String]",
+      "order": 11
+    },
+    "priority": {
+      "name": "priority",
+      "type": "/db/Double",
+      "order": 12
+    },
+    "isInstant": {
+      "name": "isInstant",
+      "type": "/db/Boolean",
+      "order": 13
+    },
+    "immutable": {
+      "name": "immutable",
+      "type": "/db/Boolean",
+      "order": 14
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "class": "/db/speedKit.Installation",
+  "superClass": "/db/Object",
+  "acl": {
+    "load": {
+      "/db/Role/1": "allow"
+    },
+    "insert": {
+      "/db/Role/1": "allow"
+    },
+    "update": {
+      "/db/Role/1": "allow"
+    },
+    "delete": {
+      "/db/Role/1": "allow"
+    },
+    "query": {
+      "/db/Role/1": "allow"
+    },
+    "schemaAdd": {
+      "/db/Role/1": "allow"
+    },
+    "schemaReplace": {
+      "/db/Role/1": "allow"
+    },
+    "schemaSubclass": {
+      "/db/Role/1": "allow"
+    }
+  },
+  "metadata": {},
+  "fields": {
+    "status": {
+      "name": "status",
+      "type": "/db/String",
+      "order": 0
+    },
+    "config": {
+      "name": "config",
+      "type": "/db/String",
+      "order": 1
+    },
+    "dynamicFetcherConfig": {
+      "name": "dynamicFetcherConfig",
+      "type": "/db/String",
+      "order": 2
+    },
+    "dynamicFetcher": {
+      "name": "dynamicFetcher",
+      "type": "/db/String",
+      "order": 3
+    },
+    "loader": {
+      "name": "loader",
+      "type": "/db/String",
+      "order": 4
+    },
+    "sw": {
+      "name": "sw",
+      "type": "/db/String",
+      "order": 5
+    },
+    "swVersion": {
+      "name": "swVersion",
+      "type": "/db/String",
+      "order": 6
+    },
+    "custom": {
+      "name": "custom",
+      "type": "/db/String",
+      "order": 7
+    },
+    "domain": {
+      "name": "domain",
+      "type": "/db/String",
+      "order": 8
+    },
+    "configVersion": {
+      "name": "configVersion",
+      "type": "/db/Integer",
+      "order": 9
+    },
+    "description": {
+      "name": "description",
+      "type": "/db/String",
+      "order": 10
+    }
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "class": "/db/speedKit.Metric",
+  "superClass": "/db/Object",
+  "acl": {
+    "load": {
+      "/db/Role/2": "allow"
+    },
+    "update": {
+      "/db/Role/1": "allow"
+    },
+    "delete": {
+      "/db/Role/1": "allow"
+    },
+    "query": {
+      "/db/Role/2": "allow"
+    },
+    "schemaAdd": {
+      "/db/Role/1": "allow"
+    },
+    "schemaReplace": {
+      "/db/Role/1": "allow"
+    },
+    "schemaSubclass": {
+      "/db/Role/1": "allow"
+    }
+  },
+  "metadata": {},
+  "fields": {
+    "executionTime": {
+      "name": "executionTime",
+      "type": "/db/Integer",
+      "order": 0
+    },
+    "url": {
+      "name": "url",
+      "type": "/db/String",
+      "order": 1
+    },
+    "enabled": {
+      "name": "enabled",
+      "type": "/db/Boolean",
+      "order": 2
+    },
+    "served": {
+      "name": "served",
+      "type": "/db/Boolean",
+      "order": 3
+    },
+    "fromOrigin": {
+      "name": "fromOrigin",
+      "type": "/db/Boolean",
+      "order": 4
+    },
+    "cacheHit": {
+      "name": "cacheHit",
+      "type": "/db/Boolean",
+      "order": 5
+    },
+    "firstLoad": {
+      "name": "firstLoad",
+      "type": "/db/Boolean",
+      "order": 6
+    },
+    "userId": {
+      "name": "userId",
+      "type": "/db/String",
+      "order": 7
+    },
+    "sessionId": {
+      "name": "sessionId",
+      "type": "/db/String",
+      "order": 8
+    },
+    "testId": {
+      "name": "testId",
+      "type": "/db/String",
+      "order": 9
+    },
+    "actualTestId": {
+      "name": "actualTestId",
+      "type": "/db/String",
+      "order": 10
+    },
+    "group": {
+      "name": "group",
+      "type": "/db/String",
+      "order": 11
+    },
+    "actualGroup": {
+      "name": "actualGroup",
+      "type": "/db/String",
+      "order": 12
+    },
+    "swResponse": {
+      "name": "swResponse",
+      "type": "/db/Boolean",
+      "order": 13
+    },
+    "userAgent": {
+      "name": "userAgent",
+      "type": "/db/String",
+      "order": 14
+    },
+    "browser": {
+      "name": "browser",
+      "type": "/db/String",
+      "order": 15
+    },
+    "referrer": {
+      "name": "referrer",
+      "type": "/db/String",
+      "order": 16
+    },
+    "swSupported": {
+      "name": "swSupported",
+      "type": "/db/Boolean",
+      "order": 17
+    },
+    "navigationStart": {
+      "name": "navigationStart",
+      "type": "/db/Integer",
+      "order": 18
+    },
+    "unloadEventStart": {
+      "name": "unloadEventStart",
+      "type": "/db/Integer",
+      "order": 19
+    },
+    "unloadEventEnd": {
+      "name": "unloadEventEnd",
+      "type": "/db/Integer",
+      "order": 20
+    },
+    "domainLookupStart": {
+      "name": "domainLookupStart",
+      "type": "/db/Integer",
+      "order": 21
+    },
+    "domainLookupEnd": {
+      "name": "domainLookupEnd",
+      "type": "/db/Integer",
+      "order": 22
+    },
+    "redirectStart": {
+      "name": "redirectStart",
+      "type": "/db/Integer",
+      "order": 23
+    },
+    "redirectEnd": {
+      "name": "redirectEnd",
+      "type": "/db/Integer",
+      "order": 24
+    },
+    "connectStart": {
+      "name": "connectStart",
+      "type": "/db/Integer",
+      "order": 25
+    },
+    "secureConnectionStart": {
+      "name": "secureConnectionStart",
+      "type": "/db/Integer",
+      "order": 26
+    },
+    "connectEnd": {
+      "name": "connectEnd",
+      "type": "/db/Integer",
+      "order": 27
+    },
+    "requestStart": {
+      "name": "requestStart",
+      "type": "/db/Integer",
+      "order": 28
+    },
+    "fetchStart": {
+      "name": "fetchStart",
+      "type": "/db/Integer",
+      "order": 29
+    },
+    "responseStart": {
+      "name": "responseStart",
+      "type": "/db/Integer",
+      "order": 30
+    },
+    "domLoading": {
+      "name": "domLoading",
+      "type": "/db/Integer",
+      "order": 31
+    },
+    "responseEnd": {
+      "name": "responseEnd",
+      "type": "/db/Integer",
+      "order": 32
+    },
+    "domContentLoadedEventStart": {
+      "name": "domContentLoadedEventStart",
+      "type": "/db/Integer",
+      "order": 33
+    },
+    "domContentLoadedEventEnd": {
+      "name": "domContentLoadedEventEnd",
+      "type": "/db/Integer",
+      "order": 34
+    },
+    "domComplete": {
+      "name": "domComplete",
+      "type": "/db/Integer",
+      "order": 35
+    },
+    "domInteractive": {
+      "name": "domInteractive",
+      "type": "/db/Integer",
+      "order": 36
+    },
+    "loadEventStart": {
+      "name": "loadEventStart",
+      "type": "/db/Integer",
+      "order": 37
+    },
+    "loadEventEnd": {
+      "name": "loadEventEnd",
+      "type": "/db/Integer",
+      "order": 38
+    },
+    "firstPaint": {
+      "name": "firstPaint",
+      "type": "/db/Integer",
+      "order": 39
+    },
+    "firstContentfulPaint": {
+      "name": "firstContentfulPaint",
+      "type": "/db/Integer",
+      "order": 40
+    },
+    "speedKitEventStart": {
+      "name": "speedKitEventStart",
+      "type": "/db/Integer",
+      "order": 41
+    },
+    "speedKitHandleStart": {
+      "name": "speedKitHandleStart",
+      "type": "/db/Integer",
+      "order": 42
+    },
+    "speedKitCacheStart": {
+      "name": "speedKitCacheStart",
+      "type": "/db/Integer",
+      "order": 43
+    },
+    "speedKitCacheEnd": {
+      "name": "speedKitCacheEnd",
+      "type": "/db/Integer",
+      "order": 44
+    },
+    "speedKitFetchStart": {
+      "name": "speedKitFetchStart",
+      "type": "/db/Integer",
+      "order": 45
+    },
+    "speedKitFetchEnd": {
+      "name": "speedKitFetchEnd",
+      "type": "/db/Integer",
+      "order": 46
+    },
+    "speedKitHandleEnd": {
+      "name": "speedKitHandleEnd",
+      "type": "/db/Integer",
+      "order": 47
+    },
+    "cdnCacheHit": {
+      "name": "cdnCacheHit",
+      "type": "/db/String",
+      "order": 48
+    },
+    "cdnBackendTime": {
+      "name": "cdnBackendTime",
+      "type": "/db/Integer",
+      "order": 49
+    },
+    "cdnPoP": {
+      "name": "cdnPoP",
+      "type": "/db/String",
+      "order": 50
+    },
+    "backendCacheHit": {
+      "name": "backendCacheHit",
+      "type": "/db/Boolean",
+      "order": 51
+    },
+    "responseCause": {
+      "name": "responseCause",
+      "type": "/db/String",
+      "order": 52
+    },
+    "responseSource": {
+      "name": "responseSource",
+      "type": "/db/String",
+      "order": 53
+    },
+    "controllingSW": {
+      "name": "controllingSW",
+      "type": "/db/String",
+      "order": 54
+    },
+    "sessionIndex": {
+      "name": "sessionIndex",
+      "type": "/db/Integer",
+      "order": 55
+    },
+    "split": {
+      "name": "split",
+      "type": "/db/Double",
+      "order": 56
+    },
+    "largestContentfulPaint": {
+      "name": "largestContentfulPaint",
+      "type": "/db/Integer",
+      "order": 57
+    },
+    "disabled": {
+      "name": "disabled",
+      "type": "/db/Boolean",
+      "order": 58
+    },
+    "disconnectCause": {
+      "name": "disconnectCause",
+      "type": "/db/String",
+      "order": 59
+    },
+    "navigationType": {
+      "name": "navigationType",
+      "type": "/db/Integer",
+      "order": 60
+    },
+    "cdnHash": {
+      "name": "cdnHash",
+      "type": "/db/String",
+      "order": 61
+    },
+    "cdnClient": {
+      "name": "cdnClient",
+      "type": "/db/JsonObject",
+      "order": 62
+    }
+  }
+}

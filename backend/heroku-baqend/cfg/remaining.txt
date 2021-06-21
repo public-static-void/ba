@@ -1,0 +1,93 @@
+00164: angermünde
+00427: berlin brandenburg
+00603: königswinter-heiderhof
+00662: braunschweig
+00704: bremervörde
+00867: lautertal-oberlauter
+01048: dresden-klotzsche
+01078: düsseldorf
+01200: elpersbüttel
+01262: münchen-flughafen
+01270: erfurt-weimar
+01303: essen-bredeney
+01346: feldberg/schwarzwald
+01357: fichtelberg/oberfranken-hüttstadl
+01420: frankfurt/main
+01468: freudenstadt
+01503: friesoythe-altenoythe
+01550: garmisch-partenkirchen
+01612: gera-leumnitz
+01639: gießen/wettenberg
+01684: görlitz
+01691: göttingen
+01766: münster/osnabrück
+01803: groß lüsewitz
+01832: großer arber
+01869: grünow
+01886: günzburg
+01975: hamburg-fuhlsbüttel
+02171: hersfeld, bad
+02252: bertsdorf-hörnitz
+02290: hohenpeißenberg
+02483: kahler asten
+02485: kaisersbach-cronhütte
+02564: kiel-holtenau
+02597: kissingen, bad
+02601: kleiner feldberg/taunus
+02667: köln-bonn
+02878: lauchstädt, bad
+02928: leipzig-holzhausen
+02932: leipzig/halle
+02985: lichtenhain-mittelndorf
+03028: lippspringe, bad
+03032: list auf sylt
+03086: lübeck-blankensee
+03093: lüchow
+03098: lüdenscheid
+03167: marienberg, bad
+03268: meßstetten-appental
+03287: michelstadt-vielbrunn
+03362: mühlacker
+03366: mühldorf
+03376: müncheberg
+03379: münchen-stadt
+03402: münsingen-apfelstetten
+03513: neuhaus am rennweg
+03660: nürburg-barweiler
+03668: nürnberg
+03761: öhringen
+04036: querfurt-mühle lodersleben
+04094: weingarten, kr. ravensburg
+04271: rostock-warnemünde
+04336: saarbrücken-ensheim
+04371: salzuflen, bad
+04393: sankt peter-ording
+04501: schmücke
+04887: stötten
+04928: stuttgart (schnarrenberg)
+04931: stuttgart-echterdingen
+05100: trier-petrisberg
+05142: ueckermünde
+05349: waren (müritz)
+05404: weihenstephan-dürnast
+05440: weißenburg-emetzheim
+05516: fehmarn
+05538: wielenbach (demollstr.)
+05705: würzburg
+05779: zinnwald-georgenfeld
+05856: fürstenzell
+05930: schönhagen (ostseebad)
+06159: dörpen
+06163: dörnick
+06197: lügde-paenbruch
+07369: feuchtwangen-heilbronn
+07370: waldmünchen
+07394: wunsiedel-schönbrunn
+07396: hoherodskopf/vogelsberg
+07403: leutkirch-herlazhofen
+07412: neuhütten/spessart
+13711: krölpa-rockendorf
+13965: balingen-bronnhaupten
+15207: schauenburg-elgershausen
+15444: ulm-mähringen
+19171: hasenkrug-hardebek

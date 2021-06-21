@@ -1,0 +1,35 @@
+{
+  "class": "/db/rum.Pi",
+  "superClass": "/db/Object",
+  "acl": {
+    "load": {
+      "/db/Role/2": "allow"
+    },
+    "update": {
+      "/db/Role/1": "allow"
+    },
+    "delete": {
+      "/db/Role/1": "allow"
+    },
+    "query": {
+      "/db/Role/2": "allow"
+    },
+    "schemaAdd": {
+      "/db/Role/1": "allow"
+    },
+    "schemaReplace": {
+      "/db/Role/1": "allow"
+    },
+    "schemaSubclass": {
+      "/db/Role/1": "allow"
+    }
+  },
+  "metadata": {},
+  "fields": {
+    "data": {
+      "name": "data",
+      "type": "/db/JsonObject",
+      "order": 0
+    }
+  }
+}

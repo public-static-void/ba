@@ -1,0 +1,21 @@
+{
+  "name": "backend-module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.5.2",
+    "baqend": "^2.14.1",
+    "underscore": "1.12.0",
+    "xmldom": "^0.4.0"
+  }
+}

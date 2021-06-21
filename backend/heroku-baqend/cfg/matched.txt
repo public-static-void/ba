@@ -1,0 +1,113 @@
+00096: neuruppin-alt ruppin <==> 10271: neuruppin-alt ruppin
+00161: andernach <==> 10520: andernach
+00183: arkona <==> 10091: arkona
+00198: artern <==> 10460: artern
+00282: bamberg <==> 10675: bamberg
+00298: barth <==> 10180: barth
+00342: belm <==> 10312: belm
+00430: berlin-tegel <==> 10382: berlin-tegel
+00433: berlin-tempelhof <==> 10384: berlin-tempelhof
+00460: berus <==> 10704: berus
+00591: boizenburg <==> 10249: boizenburg
+00596: boltenhagen <==> 10161: boltenhagen
+00656: braunlage <==> 10452: braunlage
+00691: bremen <==> 10224: bremen
+00701: bremerhaven <==> 10129: bremerhaven
+00840: carlsfeld <==> 10574: carlsfeld
+00853: chemnitz <==> 10577: chemnitz
+00856: chieming <==> 10982: chieming
+00880: cottbus <==> 10496: cottbus
+00891: cuxhaven <==> 10131: cuxhaven
+00953: deuselbach <==> 10615: deuselbach
+00963: diepholz <==> 10321: diepholz
+01001: doberlug-kirchhain <==> 10490: doberlug-kirchhain
+01358: fichtelberg <==> 10578: fichtelberg
+01443: freiburg <==> 10803: freiburg
+01544: gardelegen <==> 10359: gardelegen
+01580: geisenheim <==> 10628: geisenheim
+01587: gelbelsee <==> 10777: gelbelsee
+01587: gelbelsee <==> P438 : gelbelsee
+01605: genthin <==> 10365: genthin
+01694: goldberg <==> 10168: goldberg
+01757: greifswald <==> 10184: greifswald
+01759: greifswalder oie <==> 10097: greifswalder oie
+02014: hannover <==> 10338: hannover
+02023: harburg <==> 10850: harburg
+02044: harzgerode <==> 10458: harzgerode
+02115: helgoland <==> 10015: helgoland
+02261: hof <==> 10685: hof
+02497: kall-sistig <==> H981 : kall-sistig
+02559: kempten <==> 10946: kempten
+02638: klippeneck <==> 10818: klippeneck
+02712: konstanz <==> 10929: konstanz
+02794: kyritz <==> 10267: kyritz
+02812: lahr <==> 10805: lahr
+02856: langenlipsdorf <==> F707 : langenlipsdorf
+02907: leck <==> 10022: leck
+02925: leinefelde <==> 10449: leinefelde
+03015: lindenberg <==> 10393: lindenberg
+03126: magdeburg <==> 10361: magdeburg
+03158: manschnow <==> 10396: manschnow
+03166: marienberg <==> 10579: marienberg
+03196: marnitz <==> 10264: marnitz
+03231: meiningen <==> 10548: meiningen
+03244: memmingen <==> 10947: memmingen
+03244: memmingen <==> P801 : memmingen
+03631: norderney <==> 10113: norderney
+03730: oberstdorf <==> 10948: oberstdorf
+03811: oschatz <==> 10480: oschatz
+03821: osterfeld <==> 10565: osterfeld
+03821: osterfeld <==> N992 : osterfeld
+03897: pelzerhaken <==> 10152: pelzerhaken
+03925: pforzheim-ispringen <==> Q332 : pforzheim-ispringen
+03987: potsdam <==> 10379: potsdam
+04024: putbus <==> 10093: putbus
+04032: quedlinburg <==> N620 : quedlinburg
+04032: quedlinburg <==> K3187: quedlinburg
+04039: quickborn <==> 10146: quickborn
+04104: regensburg <==> 10776: regensburg
+04177: rheinstetten <==> 10731: rheinstetten
+04280: roth <==> 10765: roth
+04464: schleiz <==> 10564: schleiz
+04464: schleiz <==> M888 : schleiz
+04466: schleswig <==> 10035: schleswig
+04625: schwerin <==> 10162: schwerin
+04642: seehausen <==> 10261: seehausen
+04745: soltau <==> 10235: soltau
+04911: straubing <==> 10788: straubing
+05029: tholey <==> 10706: tholey
+05109: trollenhagen <==> 10281: trollenhagen
+05158: ummendorf <==> 10356: ummendorf
+05347: warburg <==> 10435: warburg
+05371: wasserkuppe <==> 10544: wasserkuppe
+05397: weiden <==> 10688: weiden
+05426: weinbiet <==> 10724: weinbiet
+05480: werl <==> 10424: werl
+05490: wernigerode <==> 10454: wernigerode
+05546: wiesenburg <==> 10368: wiesenburg
+05629: wittenberg <==> 10474: wittenberg
+05797: lichtentanne <==> O805 : lichtentanne
+05800: zwiesel <==> 10796: zwiesel
+05825: berge <==> F431 : berge
+05839: emden <==> EW006: emden
+05839: emden <==> 10203: emden
+05871: hahn <==> 10616: hahn
+05906: mannheim <==> 10729: mannheim
+06314: nossen <==> O536 : nossen
+06344: runkel-ennerich <==> L602 : runkel-ennerich
+07341: offenbach-wetterpark <==> 10641: offenbach-wetterpark
+07351: feldberg/mecklenburg <==> 10282: feldberg/mecklenburg
+07367: alfeld <==> 10442: alfeld
+07368: eisenach <==> 10540: eisenach
+07368: eisenach <==> N9357: eisenach
+07374: ahaus <==> 10309: ahaus
+07374: ahaus <==> N3102: ahaus
+07389: heckelberg <==> F361 : heckelberg
+07393: hoyerswerda <==> 10495: hoyerswerda
+07393: hoyerswerda <==> N3619: hoyerswerda
+07395: gottfrieding <==> 10872: gottfrieding
+07410: neu-ulrichstein <==> 10537: neu-ulrichstein
+13674: waibstadt <==> 10733: waibstadt
+15000: aachen-orsbach <==> 10505: aachen-orsbach
+00232: augsburg <==> 10852: augsburg
+00303: baruth <==> 10376: baruth
