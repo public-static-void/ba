@@ -188,7 +188,7 @@ const main = async () => {
         // establish a connection.
         await connectToDbBe();
 
-        // whipe database in case it already existed.
+        // whipe database in case it has already existed.
         await deleteDbBe();
 
         // get metadata from file.
@@ -198,7 +198,7 @@ const main = async () => {
         statMetaArray
             .then((arr) => initDbBe(arr));
 
-        // establish a connection.
+        // disconnect.
         await disconnectFromDbBe();
 
     } catch (err) {
