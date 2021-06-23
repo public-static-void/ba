@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RTDB test site Baqend</title>
+
+    <!-- styles -->
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+
+  </head>
+
+  <body class="bg-main">
+
+    <!-- heading section -->
+    <section id="heading-section" class="bg-header-footer text-center"> 
+      <h1>Echtzeit-Wetter Web-App</h1>
+    </section>
+
+    <!-- header -->
+    <header class="bg-header-footer text-center">
+      
+      <!-- searchable station select drop-down menu -->
+      <div class="dropdown">
+        <div id="select-station-menu">
+          <input type="text" placeholder="Ort wählen..." class= "search-menu" id="station-search-menu" onkeyup="filterStationMenu()">
+        </div>
+        <div id="station-dropdown" class="dropdown-content">
+        </div>
+        <button onclick="toggleStationMenu()" class="dropdown-button"></button>
+      </div>
+
+      <!-- searchable time select drop-down menu -->
+      <div class="dropdown">
+        <div id="select-time-menu">
+          <input type="text" placeholder="Zeitpunkt wählen..." class= "search-menu" id="time-search-menu" onkeyup="filterTimeMenu()">
+        </div>
+        <div id="time-dropdown" class="dropdown-content">
+        </div>
+        <button onclick="toggleTimeMenu()" class="dropdown-button"></button>
+      </div>
+
+    </header>
+
+    <!-- main page content -->
+    <main class="bg-main">
+
+      <!-- charts -->
+      <div id="charts-div" class="container bg-main text-center">
+
+        <!-- cell 1 -->
+        <div id="tt-10-container" class="grid-cell bg-light">
+          <h3>Lufttemperatur in °C<h3>
+          <canvas id="tt-10"></canvas>
+        </div>
+
+        <!-- cell 2 -->
+        <div id="pp-10-container" class="grid-cell bg-light">
+          <h3>Luftdruck in hPa<h3>
+          <canvas id="pp-10"></canvas>
+        </div>
+
+        <!-- cell 3 -->
+        <div id="rs-01-container" class="grid-cell bg-light">
+          <h3>Niederschlagshöhe der letzten 10 Minuten in mm<h3>
+          <canvas id="rs-01"></canvas>
+        </div>
+
+        <!-- cell 4 -->
+        <div id="r-101-container" class="grid-cell bg-light">
+          <h3>Niederschlagswahrscheinlichkeit in %<h3>
+          <canvas id="r-101"></canvas>
+        </div>
+
+        <!-- cell 5 -->
+        <div id="ff-10-container" class="grid-cell bg-light">
+          <h3>10-min-Mittel der Windgeschwindigkeit in m/s<h3>
+          <canvas id="ff-10"></canvas>
+        </div>
+
+        <!-- cell 6 -->
+        <div id="dd-10-container" class="grid-cell bg-light">
+          <h3>10-min-Mittel der Windrichtung in Grad<h3>
+          <canvas id="dd-10"></canvas>
+        </div>
+      
+      </div>
+    </main>
+
+    <!-- footer -->
+    <footer class="bg-header-footer text-right">
+      <div class="split-footer text-left">
+      <a href="https://www.baqend.com/" class="footer-img-button"><img src="./img/baqend.jpg" alt="baqend-logo"></a>
+    </div>
+    <div class="split-footer text-right">
+      <a href="https://www.dwd.de/" class="footer-img-button"><img src="./img/dwd.png" alt="dwd-logo"></a>
+      <a href="https://www.uni-hamburg.de/" class="footer-img-button"><img src="./img/uhh.png" alt="uhh-logo"></a>
+    </div>
+    </footer>
+
+    <!-- scripts -->
+    <!-- rxjs (required for baqend realtime queries)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.0.0-alpha.0/rxjs.umd.js"></script>
+    <!-- baqend -->
+    <script src="https://www.baqend.com/js-sdk/latest/baqend.es5.min.js"></script>
+    <!-- moment.js (required to display time in chart.js)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <!-- main custom javascript -->
+    <script src="./js/main.js"></script>
+  </body>
+</html>
