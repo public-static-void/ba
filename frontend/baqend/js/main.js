@@ -243,7 +243,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -270,12 +271,13 @@ const trackValues = async (type) => {
                     } // endfor
 
                     // clear previous dataset from chart.
-                    chartRemoveDataset(rsChart, mosLabel);
+                    chartRemoveDataset(rsChart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(rsChart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(rsChart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -285,7 +287,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -311,13 +314,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(r101Chart, mosLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(r101Chart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(r101Chart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(r101Chart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -327,7 +331,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -353,13 +358,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ffChart, mosLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ffChart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ffChart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ffChart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -369,7 +375,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -395,13 +402,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ddChart, mosLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ddChart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ddChart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ddChart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -411,7 +419,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -437,13 +446,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ppChart, mosLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ppChart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ppChart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ppChart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -453,7 +463,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId)
+                // remove whitespace from mos id.
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
@@ -479,13 +490,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ttChart, mosLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ttChart, mosLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ttChart, mosLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ttChart, mosLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -522,13 +534,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(rsChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(rsChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(rsChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(rsChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -565,13 +578,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(rsChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(rsChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(rsChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(rsChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -607,13 +621,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ffChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ffChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ffChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ffChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -649,13 +664,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ddChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ddChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ddChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ddChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -691,13 +707,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ppChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ppChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ppChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ppChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -733,13 +750,14 @@ const trackValues = async (type) => {
                         } // endif
                     } // endfor
 
-                    // clear previous dataset from chart
-                    chartRemoveDataset(ttChart, dwdLabel);
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ttChart, dwdLabel).then(() => {
 
-                    // add each element from the result array to the chart.
-                    for (let element in resultArr) {
-                        chartAddData(ttChart, dwdLabel, resultArr[element]);
-                    } //endfor
+                        // add each element from the result array to the chart.
+                        for (let element in resultArr) {
+                            chartAddData(ttChart, dwdLabel, resultArr[element]);
+                        } //endfor
+                    });
                 });
 
             // add to global array with active subscribtions.
@@ -878,11 +896,10 @@ const chartRemoveDataset = async (chart, label) => {
         for (let i in dataArr) {
             // check whether if the label property matches the provided label.
             if (dataArr[i].label == label) {
-                // iterate through the dataset that matches the provided label.
-                for (let j in dataArr[i].data) {
-                    // find data entries corresponding to provided x and y values.
-                    dataArr[i].data.splice(j, 1);
-                } // endfor
+
+                // remove the dataset.
+                dataArr[i].data = [];
+
             } // endif
         } // endfor
         // repaint chart.
@@ -1559,7 +1576,7 @@ const trackMeasurements = async () => {
 
         // TODO: decide whether to use 1minrr or 10minrr.
         // rs (precipitation 1 min)
-        //trackValues(dwdRsRef, "dwdRs");
+        //trackValues("dwdRs");
 
         // rws (precipitation 10 min)
         trackValues("dwdRws");
