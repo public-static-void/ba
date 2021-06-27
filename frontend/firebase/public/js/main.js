@@ -97,6 +97,9 @@ let currentTimeIntervals = [];
 let currentDwdId = "";
 let currentMosId = "";
 
+// current subscribtions.
+let currentSubs = [];
+
 // constants.
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -105,6 +108,26 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
  * --- HELPER FUNCTIONS ---
  * ------------------------
  */
+
+/**
+ * helper function. removes subscribtions from all queries.
+ */
+const unsubQueries = () => {
+    try {
+
+        // iterate through the array containing all currently active 
+        // subscribtions and unsubscribe from all of them.
+        for (let sub in currentSubs) {
+            currentSubs[sub].off();
+        } // endfor
+
+        // remove all subscribtion objects from the global array.
+        currentSubs = [];
+
+    } catch (err) {
+        console.log(err);
+    } // endtry
+} //endfun
 
 /**
  * helper function. converts precipitation forecast value format to 
@@ -218,276 +241,377 @@ const trackValues = async (ref, type) => {
         // check for type of values to track and perform appropriate steps.
         if (type == "mosRrl1c") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // TODO: if 1minrr use rrl1cToRs(), if 10minrr use rrl1cToRws().
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(rsChart, mosLabel, { x: time, y: rrl1cToRws(data.val().value).toFixed(4) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(rsChart, mosLabel, { x: time, y: rrl1cToRws(data.val().value).toFixed(4) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(rsChart, mosLabel, { x: time, y: rrl1cToRws(data.val().value).toFixed(4) });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(rsChart, mosLabel, { x: time, y: rrl1cToRws(data.val().value).toFixed(4) });
+                chartAddData(rsChart, mosLabel, { x: time, y: rrl1cToRws(data.val().value).toFixed(4) });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "mosR101") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.            
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(r101Chart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(r101Chart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(r101Chart, mosLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(r101Chart, mosLabel, { x: time, y: data.val().value });
+                chartAddData(r101Chart, mosLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "mosFf") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ffChart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ffChart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ffChart, mosLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ffChart, mosLabel, { x: time, y: data.val().value });
+                chartAddData(ffChart, mosLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "mosDd") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ddChart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ddChart, mosLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ddChart, mosLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ddChart, mosLabel, { x: time, y: data.val().value });
+                chartAddData(ddChart, mosLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "mosPppp") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ppChart, mosLabel, { x: time, y: ppppToPp(data.val().value).toFixed(1) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ppChart, mosLabel, { x: time, y: ppppToPp(data.val().value).toFixed(1) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ppChart, mosLabel, { x: time, y: ppppToPp(data.val().value).toFixed(1) });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ppChart, mosLabel, { x: time, y: ppppToPp(data.val().value).toFixed(1) });
+                chartAddData(ppChart, mosLabel, { x: time, y: ppppToPp(data.val().value).toFixed(1) });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "mosTtt") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ttChart, mosLabel, { x: time, y: tttToTt(data.val().value).toFixed(1) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ttChart, mosLabel, { x: time, y: tttToTt(data.val().value).toFixed(1) });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ttChart, mosLabel, { x: time, y: tttToTt(data.val().value).toFixed(1) });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ttChart, mosLabel, { x: time, y: tttToTt(data.val().value).toFixed(1) });
+                chartAddData(ttChart, mosLabel, { x: time, y: tttToTt(data.val().value).toFixed(1) });
+            });
 
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "dwdRs") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(rsChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(rsChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(rsChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
             // TODO: decide whether to use 1 or 10 min rr.
         } else if (type == "dwdRws") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(rsChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(rsChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(rsChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(rsChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "dwdFf") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ffChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ffChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ffChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ffChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(ffChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "dwdDd") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ddChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ddChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ddChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ddChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(ddChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "dwdPp") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ppChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ppChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ppChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ppChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(ppChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } else if (type == "dwdTt") {
 
-            // reset possible listeners.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).off();
+            // create a query to subscribe listeners to.
+            const sub = ref.orderByChild("date").startAt(startTime).endAt(endTime);
 
             // register new listeners for changes.
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_added', async (data) => {
+            sub.on('child_added', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartAddData(ttChart, dwdLabel, { x: time, y: data.val().value });
-                // track the time of the last measurement.
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_changed', async (data) => {
+            sub.on('child_changed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartUpdateData(ttChart, dwdLabel, { x: time, y: data.val().value });
             });
-            ref.orderByChild("date").startAt(startTime).endAt(endTime).on('child_removed', async (data) => {
+            sub.on('child_removed', async (data) => {
                 // convert timestamp to date object.
                 const time = new Date(parseInt(data.val().date));
                 chartRemoveData(ttChart, dwdLabel, { x: time, y: data.val().value });
             });
+            sub.on('child_moved', async (data) => {
+                // convert timestamp to date object.
+                const time = new Date(parseInt(data.val().date));
+                chartRemoveData(ttChart, dwdLabel, { x: time, y: data.val().value });
+                chartAddData(ttChart, dwdLabel, { x: time, y: data.val().value });
+            });
+
+            // add to global array with active subscribtions.
+            currentSubs.push(sub);
 
         } // endif
 
@@ -517,7 +641,28 @@ const chartAddData = async (chart, label, entry) => {
                 if (dataset.label == label) {
                     // avoid duplicates.
                     if (!dataset.data.includes(entry)) {
-                        dataset.data.push(entry);
+
+                        // if the array is empty, just push the entry onto it.
+                        if (dataset.data.length == 0) {
+                            dataset.data.push(entry);
+                            // if the entry is bigger then the last element, 
+                            // push it onto it.
+                        } else if (entry.x > dataset.data[dataset.data.length - 1].x) {
+                            dataset.data.push(entry);
+                            // if the entry is smaller then the last element, 
+                            // create a new array and concat it.
+                        } else if (entry.x < dataset.data[0].x) {
+                            dataset.data.splice(0, 0, entry);
+                            // else find the first element that is bigger
+                            // and insert entry after it.
+                        } else {
+                            for (let j in dataset.data) {
+                                if (dataset.data[j].x > entry.x) {
+                                    dataset.data.splice(j, 0, entry);
+                                    break;
+                                } // endif
+                            } // endfor
+                        } // endif
                     } // endif
                 } // endif
             });
@@ -557,6 +702,9 @@ const chartUpdateData = async (chart, label, entry) => {
 
                         // update the y value in the data array.
                         dataArr[i].data[j].y = entry.y;
+                        // TODO: DEBUG
+                        /*                     } else if () {
+                                                chartAddData(chart, label, entry); */
                     } // endif
                 } // endfor
             } // endif
@@ -901,7 +1049,7 @@ const populateMenu = async (menuId, obj) => {
             // display the station name as menu entry.
             option.text = obj.name;
             // construct function call and create onclick event.
-            option.setAttribute("onclick", "toggleActiveStation(this); setCurrentIds('" + obj.dwd_id + "', '" + obj.mos_id + "'); resetCharts(); trackMeasurements(); trackForecasts(); setStationPlaceholder('" + obj.dwd_id + "');");
+            option.setAttribute("onclick", "unsubQueries(); toggleActiveStation(this); setCurrentIds('" + obj.dwd_id + "', '" + obj.mos_id + "'); resetCharts(); trackMeasurements(); trackForecasts(); setStationPlaceholder('" + obj.dwd_id + "');");
 
         } else if (menuId == "time-dropdown") {
 
@@ -919,7 +1067,7 @@ const populateMenu = async (menuId, obj) => {
                 // create a text description.
                 option.text = obj.getDate() + "." + ("0" + (obj.getMonth() + 1)).slice(-2) + "." + obj.getFullYear() + " (Heute)";
                 // construct function call and create onclick event.
-                option.setAttribute("onclick", "toggleActiveTime(this); setTimeIntervals('today'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Heute');");
+                option.setAttribute("onclick", "unsubQueries(); toggleActiveTime(this); setTimeIntervals('today'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Heute');");
 
             } else if (obj.getDate() == tomorrow.getDate() &&
                 obj.getMonth() == tomorrow.getMonth() &&
@@ -927,7 +1075,7 @@ const populateMenu = async (menuId, obj) => {
                 // create a text description.
                 option.text = obj.getDate() + "." + ("0" + (obj.getMonth() + 1)).slice(-2) + "." + obj.getFullYear() + " (Morgen)";
                 // construct function call and create onclick event.
-                option.setAttribute("onclick", "toggleActiveTime(this); setTimeIntervals('tomorrow'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Morgen');");
+                option.setAttribute("onclick", "unsubQueries(); toggleActiveTime(this); setTimeIntervals('tomorrow'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Morgen');");
 
             } else if (obj.getDate() == dayaftertomorrow.getDate() &&
                 obj.getMonth() == dayaftertomorrow.getMonth() &&
@@ -935,7 +1083,7 @@ const populateMenu = async (menuId, obj) => {
                 // create a text description.
                 option.text = obj.getDate() + "." + ("0" + (obj.getMonth() + 1)).slice(-2) + "." + obj.getFullYear() + " (Übermorgen)";
                 // construct function call and create onclick event.
-                option.setAttribute("onclick", "toggleActiveTime(this); setTimeIntervals('dayaftertomorrow'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Übermorgen');");
+                option.setAttribute("onclick", "unsubQueries(); toggleActiveTime(this); setTimeIntervals('dayaftertomorrow'); resetCharts(); trackMeasurements(); trackForecasts(); setTimePlaceholder('Übermorgen');");
 
             } // endif
 
