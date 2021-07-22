@@ -40,7 +40,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be');
+        await db.connect('ezwwa-be-v5');
         await db.ready();
 
         // login with a user who has admin permissions.
@@ -96,7 +96,7 @@ const initDbBe = async (arr) => {
 
             // insert object into database.
             //station.insert();
-            station.save({ force: true });
+            await station.save({ force: true });
 
             // create new measurements object.
             let measurements = await new db.Measurements();
@@ -111,7 +111,7 @@ const initDbBe = async (arr) => {
 
             // insert object into database.
             //measurements.insert();
-            measurements.save({ force: true });
+            await measurements.save({ force: true });
 
             // create new forecasts object.
             let forecasts = await new db.Forecasts();
@@ -128,7 +128,7 @@ const initDbBe = async (arr) => {
 
             // insert object into database.
             //forecasts.insert();
-            forecasts.save({ force: true });
+            await forecasts.save({ force: true });
 
         } // endfor
 
