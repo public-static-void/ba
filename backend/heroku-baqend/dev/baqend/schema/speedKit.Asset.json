@@ -102,6 +102,11 @@
       "name": "immutable",
       "type": "/db/Boolean",
       "order": 14
+    },
+    "tags": {
+      "name": "tags",
+      "type": "/db/collection.Set[/db/String]",
+      "order": 15
     }
   }
 }

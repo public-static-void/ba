@@ -102,7 +102,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be');
+        await db.connect('ezwwa-be-v6');
         await db.ready();
 
     } catch (err) {
@@ -241,20 +241,19 @@ const trackValues = async (type) => {
         // check for type of values to track and perform appropriate steps.
         if (type == "mosRrl1c") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the RRL1c forecasts entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.RRL1c.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].RRL1c) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].RRL1c[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -285,20 +284,19 @@ const trackValues = async (type) => {
 
         } else if (type == "mosR101") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the R101 forecasts entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.R101.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].R101) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].R101[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -329,20 +327,19 @@ const trackValues = async (type) => {
 
         } else if (type == "mosFf") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the FF forecasts entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.FF.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].FF) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].FF[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -373,20 +370,19 @@ const trackValues = async (type) => {
 
         } else if (type == "mosDd") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the DD forecasts entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.DD.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].DD) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].DD[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -417,20 +413,19 @@ const trackValues = async (type) => {
 
         } else if (type == "mosPppp") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the PPPP forecasts entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.PPPP.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].PPPP) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].PPPP[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -461,20 +456,19 @@ const trackValues = async (type) => {
 
         } else if (type == "mosTtt") {
 
-            // subscribe to the forecasts entity to track changes.
-            const sub = db.Forecasts.find()
-                // remove whitespace from mos id.
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
+            // subscribe to the TTT entity to track changes.
+            // remove whitespace from mos id.
+            const sub = db.TTT.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].TTT) {
+                    for (let element in forecast[0].readings) {
 
-                        // get the reading object.
-                        let reading = forecast[0].TTT[element];
+                        // get the reading element JSON object.
+                        let reading = forecast[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -506,19 +500,18 @@ const trackValues = async (type) => {
             // TODO: decide whether to use 1 or 10 min rr.
         } else if (type == "dwdRs") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the RS_01 measurements entity to track changes.
+            const sub = db.RS_01.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].RS_01) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].RS_01[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -550,19 +543,18 @@ const trackValues = async (type) => {
             // TODO: decide whether to use 1 or 10 min rr.
         } else if (type == "dwdRws") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the RWS_10 measurements entity to track changes.
+            const sub = db.RWS_10.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].RWS_10) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].RWS_10[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -593,19 +585,18 @@ const trackValues = async (type) => {
 
         } else if (type == "dwdFf") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the FF_10measurements entity to track changes.
+            const sub = db.FF_10.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].FF_10) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].FF_10[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -636,19 +627,18 @@ const trackValues = async (type) => {
 
         } else if (type == "dwdDd") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the DD_10 measurements entity to track changes.
+            const sub = db.DD_10.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].DD_10) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].DD_10[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -679,19 +669,18 @@ const trackValues = async (type) => {
 
         } else if (type == "dwdPp") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the PP_10 measurements entity to track changes.
+            const sub = db.PP_10.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].PP_10) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].PP_10[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -722,19 +711,18 @@ const trackValues = async (type) => {
 
         } else if (type == "dwdTt") {
 
-            // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find()
-                .equal('dwd_id', currentDwdId)
+            // subscribe to the TT_10 measurements entity to track changes.
+            const sub = db.TT_10.find(currentDwdId)
                 .resultStream((measurement) => {
 
                     // initialize array to store reading results in.
                     let resultArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].TT_10) {
+                    for (let element in measurement[0].readings) {
 
-                        // get the reading object.
-                        let reading = measurement[0].TT_10[element];
+                        // get the reading element JSON object.
+                        let reading = measurement[0].readings[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -1085,7 +1073,7 @@ const addStation = (stationObj) => {
         populateMenu("station-dropdown", stationObj)
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
     } // endtry
 } // endfun
 
@@ -1126,7 +1114,7 @@ const getTimeLimits = (day) => {
         return resultTime;
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
     } // endtry
 } // endfun
 
@@ -1141,7 +1129,7 @@ const setTimeIntervals = (day) => {
         currentTimeIntervals = getTimeLimits(day);
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
     } // endtry
 } // endfun
 
@@ -1181,7 +1169,7 @@ const populateTimeMenu = () => {
         populateMenu("time-dropdown", dayaftertomorrow);
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
     } // endtry
 } // endfun
 
@@ -1563,7 +1551,7 @@ const trackStations = async () => {
         });
 
     } catch (err) {
-        console.log(err)
+        console.log(err);
     } // endtry
 } // endfun
 

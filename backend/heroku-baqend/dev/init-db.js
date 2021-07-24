@@ -40,7 +40,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v5');
+        await db.connect('ezwwa-be-v6');
         await db.ready();
 
         // login with a user who has admin permissions.
@@ -56,7 +56,6 @@ const connectToDbBe = async () => {
  */
 const disconnectFromDbBe = async () => {
     try {
-
         // log out user.
         await db.User.logout();
 
@@ -95,40 +94,105 @@ const initDbBe = async (arr) => {
             station.location = await new db.GeoPoint(lat, lon);
 
             // insert object into database.
-            //station.insert();
             await station.save({ force: true });
 
-            // create new measurements object.
-            let measurements = await new db.Measurements();
-            // set the properties.
-            measurements.id = i;
-            measurements.dwd_id = line[0];
-            measurements.PP_10 = [];
-            measurements.TT_10 = [];
-            measurements.DD_10 = [];
-            measurements.FF_10 = [];
-            measurements.RWS_10 = [];
+            // create new measurements objects.
 
+            // PP_10
+            let pp_10 = await new db.PP_10();
+            // set the properties.
+            pp_10.id = line[0];
+            pp_10.readings = [];
             // insert object into database.
-            //measurements.insert();
-            await measurements.save({ force: true });
+            await pp_10.save({ force: true });
 
-            // create new forecasts object.
-            let forecasts = await new db.Forecasts();
+            // TT_10
+            let tt_10 = await new db.TT_10();
             // set the properties.
-            forecasts.id = i;
+            tt_10.id = line[0];
+            tt_10.readings = [];
+            // insert object into database.
+            await tt_10.save({ force: true });
+
+            // FF_10
+            let ff_10 = await new db.FF_10();
+            // set the properties.
+            ff_10.id = line[0];
+            ff_10.readings = [];
+            // insert object into database.
+            await ff_10.save({ force: true });
+
+            // DD_10
+            let dd_10 = await new db.DD_10();
+            // set the properties.
+            dd_10.id = line[0];
+            dd_10.readings = [];
+            // insert object into database.
+            await dd_10.save({ force: true });
+
+            // RWS_10
+            let rws_10 = await new db.RWS_10();
+            // set the properties.
+            rws_10.id = line[0];
+            rws_10.readings = [];
+            // insert object into database.
+            await rws_10.save({ force: true });
+
+            // create new forecasts objects.
+
+            // PPPP
+            let pppp = await new db.PPPP();
+            // set the properties.
             // remove whitespace from mos id.
-            forecasts.mos_id = line[1].replace(/\s/g, "");
-            forecasts.PPPP = [];
-            forecasts.TTT = [];
-            forecasts.DD = [];
-            forecasts.FF = [];
-            forecasts.RRL1c = [];
-            forecasts.R101 = [];
-
+            pppp.id = line[1].replace(/\s/g, "");
+            pppp.readings = [];
             // insert object into database.
-            //forecasts.insert();
-            await forecasts.save({ force: true });
+            await pppp.save({ force: true });
+
+            // TTT
+            let ttt = await new db.TTT();
+            // set the properties.
+            // remove whitespace from mos id.
+            ttt.id = line[1].replace(/\s/g, "");
+            ttt.readings = [];
+            // insert object into database.
+            await ttt.save({ force: true });
+
+            // FF
+            let ff = await new db.FF();
+            // set the properties.
+            // remove whitespace from mos id.
+            ff.id = line[1].replace(/\s/g, "");
+            ff.readings = [];
+            // insert object into database.
+            await ff.save({ force: true });
+
+            // DD
+            let dd = await new db.DD();
+            // set the properties.
+            // remove whitespace from mos id.
+            dd.id = line[1].replace(/\s/g, "");
+            dd.readings = [];
+            // insert object into database.
+            await dd.save({ force: true });
+
+            // RRL1c
+            let rrl1c = await new db.RRL1c();
+            // set the properties.
+            // remove whitespace from mos id.
+            rrl1c.id = line[1].replace(/\s/g, "");
+            rrl1c.readings = [];
+            // insert object into database.
+            await rrl1c.save({ force: true });
+
+            // R101
+            let r101 = await new db.R101();
+            // set the properties.
+            // remove whitespace from mos id.
+            r101.id = line[1].replace(/\s/g, "");
+            r101.readings = [];
+            // insert object into database.
+            await r101.save({ force: true });
 
         } // endfor
 
@@ -145,23 +209,89 @@ const deleteDbBe = async () => {
 
         // find all stations...
         db.Station.find().resultList((result) => {
-            result.forEach((station) => {
+            result.forEach(async (station) => {
                 // ...and delete them.
                 station.delete({ force: true });
             });
         });
 
         // find all measurements...
-        db.Measurements.find().resultList((result) => {
-            result.forEach((measurement) => {
+        // PP_10
+        db.PP_10.find().resultList((result) => {
+            result.forEach(async (measurement) => {
+                // ...and delete them.
+                measurement.delete({ force: true });
+            });
+        });
+
+        // TT_10
+        db.TT_10.find().resultList((result) => {
+            result.forEach(async (measurement) => {
+                // ...and delete them.
+                measurement.delete({ force: true });
+            });
+        });
+        // FF_10
+        db.FF_10.find().resultList((result) => {
+            result.forEach(async (measurement) => {
+                // ...and delete them.
+                measurement.delete({ force: true });
+            });
+        });
+        // DD_10
+        db.DD_10.find().resultList((result) => {
+            result.forEach(async (measurement) => {
+                // ...and delete them.
+                measurement.delete({ force: true });
+            });
+        });
+        // RWS_10
+        db.RWS_10.find().resultList((result) => {
+            result.forEach(async (measurement) => {
                 // ...and delete them.
                 measurement.delete({ force: true });
             });
         });
 
         // find all forecasts...
-        db.Forecasts.find().resultList((result) => {
-            result.forEach((forecast) => {
+        // PPPP
+        db.PPPP.find().resultList((result) => {
+            result.forEach(async (forecast) => {
+                // ...and delete them.
+                forecast.delete({ force: true });
+            });
+        });
+        // TTT
+        db.TTT.find().resultList((result) => {
+            result.forEach(async (forecast) => {
+                // ...and delete them.
+                forecast.delete({ force: true });
+            });
+        });
+        // FF
+        db.FF.find().resultList((result) => {
+            result.forEach(async (forecast) => {
+                // ...and delete them.
+                forecast.delete({ force: true });
+            });
+        });
+        // DD
+        db.DD.find().resultList((result) => {
+            result.forEach(async (forecast) => {
+                // ...and delete them.
+                forecast.delete({ force: true });
+            });
+        });
+        // RRL1c
+        db.RRL1c.find().resultList((result) => {
+            result.forEach(async (forecast) => {
+                // ...and delete them.
+                forecast.delete({ force: true });
+            });
+        });
+        // R101
+        db.R101.find().resultList((result) => {
+            result.forEach(async (forecast) => {
                 // ...and delete them.
                 forecast.delete({ force: true });
             });
@@ -189,17 +319,17 @@ const main = async () => {
         await connectToDbBe();
 
         // whipe database in case it has already existed.
-        await deleteDbBe();
+        //await deleteDbBe();
 
         // get metadata from file.
         const statMetaArray = parser.parseTxt(cfgPath + metaFile, "init", 0);
 
         // insert stations meta data into the database.
         statMetaArray
-            .then((arr) => initDbBe(arr));
+            .then((arr) => { return initDbBe(arr) })
 
-        // disconnect.
-        await disconnectFromDbBe();
+            // disconnect.
+            .then(() => disconnectFromDbBe());
 
     } catch (err) {
         console.log(err);
