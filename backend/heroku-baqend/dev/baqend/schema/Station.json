@@ -12,7 +12,6 @@
       "/db/Role/1": "allow"
     }
   },
-  "metadata": {},
   "fields": {
     "name": {
       "name": "name",

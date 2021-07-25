@@ -24,7 +24,6 @@
       "/db/Role/1": "allow"
     }
   },
-  "metadata": {},
   "fields": {
     "data": {
       "name": "data",

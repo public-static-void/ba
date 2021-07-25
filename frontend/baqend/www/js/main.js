@@ -102,7 +102,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v6');
+        await db.connect('ezwwa-be-v7');
         await db.ready();
 
     } catch (err) {
@@ -239,21 +239,23 @@ const trackValues = async (type) => {
         const endTime = "" + currentTimeIntervals[1];
 
         // check for type of values to track and perform appropriate steps.
-        if (type == "mosRrl1c") {
+        if (type == "forecasts") {
 
-            // subscribe to the RRL1c forecasts entity to track changes.
+            // subscribe to the forecasts entity to track changes.
             // remove whitespace from mos id.
-            const sub = db.RRL1c.find(currentMosId.replace(/\s/g, ""))
+            const sub = db.Forecasts.find(currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
+                    // RRL1c
+
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let rrl1cArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].RRL1c) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].RRL1c[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -264,7 +266,7 @@ const trackValues = async (type) => {
                             const value = rrl1cToRws(reading.value).toFixed(4);
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            rrl1cArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -273,30 +275,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(rsChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(rsChart, mosLabel, resultArr[element]);
+                        for (let element in rrl1cArr) {
+                            chartAddData(rsChart, mosLabel, rrl1cArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "mosR101") {
-
-            // subscribe to the R101 forecasts entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.R101.find(currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+                    // R101
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let r101Arr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].RRL1c) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].RRL1c[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -307,39 +300,30 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            r101Arr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
 
                     // clear previous dataset from chart.
-                    chartRemoveDataset(r101Chart, mosLabel).then(() => {
+                    chartRemoveDataset(rsChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(r101Chart, mosLabel, resultArr[element]);
+                        for (let element in r101Arr) {
+                            chartAddData(rsChart, mosLabel, r101Arr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "mosFf") {
-
-            // subscribe to the FF forecasts entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.FF.find(currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+                    // FF
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ffArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].FF) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].FF[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -350,7 +334,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ffArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -359,30 +343,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ffChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ffChart, mosLabel, resultArr[element]);
+                        for (let element in ffArr) {
+                            chartAddData(ffChart, mosLabel, ffArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "mosDd") {
-
-            // subscribe to the DD forecasts entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.DD.find(currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+                    // DD
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ddArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].DD) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].DD[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -393,7 +368,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ddArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -402,30 +377,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ddChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ddChart, mosLabel, resultArr[element]);
+                        for (let element in ddArr) {
+                            chartAddData(ddChart, mosLabel, ddArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "mosPppp") {
-
-            // subscribe to the PPPP forecasts entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.PPPP.find(currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+                    // PPPP
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ppppArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].PPPP) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].PPPP[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -436,7 +402,7 @@ const trackValues = async (type) => {
                             const value = ppppToPp(reading.value).toFixed(1);
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ppppArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -445,30 +411,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ppChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ppChart, mosLabel, resultArr[element]);
+                        for (let element in ppppArr) {
+                            chartAddData(ppChart, mosLabel, ppppArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "mosTtt") {
-
-            // subscribe to the TTT entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.TTT.find(currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+                    // TTT
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let tttArr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].readings) {
+                    for (let element in forecast[0].TTT) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].readings[element];
+                        let reading = forecast[0].TTT[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -479,7 +436,7 @@ const trackValues = async (type) => {
                             const value = tttToTt(reading.value).toFixed(1)
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            tttArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -488,8 +445,8 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ttChart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ttChart, mosLabel, resultArr[element]);
+                        for (let element in tttArr) {
+                            chartAddData(ttChart, mosLabel, tttArr[element]);
                         } //endfor
                     });
                 });
@@ -497,21 +454,23 @@ const trackValues = async (type) => {
             // add to global array with active subscribtions.
             currentSubs.push(sub);
 
-            // TODO: decide whether to use 1 or 10 min rr.
-        } else if (type == "dwdRs") {
+        } else if (type == "measurements") {
 
-            // subscribe to the RS_01 measurements entity to track changes.
-            const sub = db.RS_01.find(currentDwdId)
+            // subscribe to the measurements entity to track changes.
+            const sub = db.Measurements.find(currentDwdId)
                 .resultStream((measurement) => {
 
+                    // TODO: decide whether to use 1 or 10 min rr.
+                    // RS_01
+
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let rsArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
+                    for (let element in measurement[0].RS_01) {
 
                         // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
+                        let reading = measurement[0].RS_01[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -522,7 +481,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            rsArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -531,30 +490,22 @@ const trackValues = async (type) => {
                     chartRemoveDataset(rsChart, dwdLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(rsChart, dwdLabel, resultArr[element]);
+                        for (let element in rsArr) {
+                            chartAddData(rsChart, dwdLabel, rsArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-            // TODO: decide whether to use 1 or 10 min rr.
-        } else if (type == "dwdRws") {
-
-            // subscribe to the RWS_10 measurements entity to track changes.
-            const sub = db.RWS_10.find(currentDwdId)
-                .resultStream((measurement) => {
+                    // TODO: decide whether to use 1 or 10 min rr.
+                    // RWS_10
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let rwsArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
+                    for (let element in measurement[0].RWS_10) {
 
                         // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
+                        let reading = measurement[0].RWS_10[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -565,7 +516,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            rwsArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -574,29 +525,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(rsChart, dwdLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(rsChart, dwdLabel, resultArr[element]);
+                        for (let element in rwsArr) {
+                            chartAddData(rsChart, dwdLabel, rwsArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "dwdFf") {
-
-            // subscribe to the FF_10measurements entity to track changes.
-            const sub = db.FF_10.find(currentDwdId)
-                .resultStream((measurement) => {
+                    // DD_10
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ddArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
+                    for (let element in measurement[0].DD_10) {
 
                         // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
+                        let reading = measurement[0].DD_10[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -607,49 +550,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
-
-                        } // endif
-                    } // endfor
-
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(ffChart, dwdLabel).then(() => {
-
-                        // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ffChart, dwdLabel, resultArr[element]);
-                        } //endfor
-                    });
-                });
-
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "dwdDd") {
-
-            // subscribe to the DD_10 measurements entity to track changes.
-            const sub = db.DD_10.find(currentDwdId)
-                .resultStream((measurement) => {
-
-                    // initialize array to store reading results in.
-                    let resultArr = [];
-
-                    // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
-
-                        // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
-
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
-
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // no transformation needed.
-                            const value = reading.value;
-
-                            // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ddArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -658,29 +559,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ddChart, dwdLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ddChart, dwdLabel, resultArr[element]);
+                        for (let element in ddArr) {
+                            chartAddData(ddChart, dwdLabel, ddArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "dwdPp") {
-
-            // subscribe to the PP_10 measurements entity to track changes.
-            const sub = db.PP_10.find(currentDwdId)
-                .resultStream((measurement) => {
+                    // PP_10
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ppArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
+                    for (let element in measurement[0].PP_10) {
 
                         // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
+                        let reading = measurement[0].PP_10[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -691,7 +584,7 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ppArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -700,29 +593,21 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ppChart, dwdLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ppChart, dwdLabel, resultArr[element]);
+                        for (let element in ppArr) {
+                            chartAddData(ppChart, dwdLabel, ppArr[element]);
                         } //endfor
                     });
-                });
 
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
-
-        } else if (type == "dwdTt") {
-
-            // subscribe to the TT_10 measurements entity to track changes.
-            const sub = db.TT_10.find(currentDwdId)
-                .resultStream((measurement) => {
+                    // FF_10
 
                     // initialize array to store reading results in.
-                    let resultArr = [];
+                    let ffArr = [];
 
                     // for all elements in the list of measurement readings...
-                    for (let element in measurement[0].readings) {
+                    for (let element in measurement[0].FF_10) {
 
                         // get the reading element JSON object.
-                        let reading = measurement[0].readings[element];
+                        let reading = measurement[0].FF_10[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -733,7 +618,41 @@ const trackValues = async (type) => {
                             const value = reading.value;
 
                             // and add it to the result array.
-                            resultArr.push({ x: time, y: value });
+                            ffArr.push({ x: time, y: value });
+
+                        } // endif
+                    } // endfor
+
+                    // clear previous dataset from chart.
+                    chartRemoveDataset(ffChart, dwdLabel).then(() => {
+
+                        // add each element from the result array to the chart.
+                        for (let element in ffArr) {
+                            chartAddData(ffChart, dwdLabel, ffArr[element]);
+                        } //endfor
+                    });
+
+                    // TT_10
+
+                    // initialize array to store reading results in.
+                    let ttArr = [];
+
+                    // for all elements in the list of measurement readings...
+                    for (let element in measurement[0].TT_10) {
+
+                        // get the reading element JSON object.
+                        let reading = measurement[0].TT_10[element];
+
+                        // if its date is between start and end times..
+                        if (reading.date >= startTime && reading.date <= endTime) {
+
+                            // convert timestamp to date object.
+                            const time = new Date(parseInt(reading.date));
+                            // no transformation needed.
+                            const value = reading.value;
+
+                            // and add it to the result array.
+                            ttArr.push({ x: time, y: value });
 
                         } // endif
                     } // endfor
@@ -742,8 +661,8 @@ const trackValues = async (type) => {
                     chartRemoveDataset(ttChart, dwdLabel).then(() => {
 
                         // add each element from the result array to the chart.
-                        for (let element in resultArr) {
-                            chartAddData(ttChart, dwdLabel, resultArr[element]);
+                        for (let element in ttArr) {
+                            chartAddData(ttChart, dwdLabel, ttArr[element]);
                         } //endfor
                     });
                 });
@@ -1562,24 +1481,7 @@ const trackStations = async () => {
 const trackMeasurements = async () => {
     try {
 
-        // TODO: decide whether to use 1minrr or 10minrr.
-        // rs (precipitation 1 min)
-        //trackValues("dwdRs");
-
-        // rws (precipitation 10 min)
-        trackValues("dwdRws");
-
-        // ff (wind force)
-        trackValues("dwdFf");
-
-        // dd (wind dicection)
-        trackValues("dwdDd");
-
-        // pp (pressure)
-        trackValues("dwdPp");
-
-        // tt (temperature)
-        trackValues("dwdTt");
+        trackValues("measurements");
 
     } catch (err) {
         console.log(err);
@@ -1593,23 +1495,7 @@ const trackMeasurements = async () => {
 const trackForecasts = async () => {
     try {
 
-        // rrl1c (precipitation 10 min)
-        trackValues("mosRrl1c");
-
-        // r101 (precipitation chance)
-        trackValues("mosR101");
-
-        // ff (wind force)
-        trackValues("mosFf");
-
-        // dd (wind dicection)
-        trackValues("mosDd");
-
-        // pppp (pressure)
-        trackValues("mosPppp");
-
-        // ttt (temperature)
-        trackValues("mosTtt");
+        trackValues("forecasts");
 
     } catch (err) {
         console.log(err);

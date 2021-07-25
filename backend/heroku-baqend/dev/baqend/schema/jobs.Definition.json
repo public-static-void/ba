@@ -27,7 +27,6 @@
       "/db/Role/2": "allow"
     }
   },
-  "metadata": {},
   "fields": {
     "module": {
       "name": "module",

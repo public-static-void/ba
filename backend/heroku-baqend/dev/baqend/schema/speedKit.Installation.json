@@ -27,7 +27,6 @@
       "/db/Role/1": "allow"
     }
   },
-  "metadata": {},
   "fields": {
     "status": {
       "name": "status",

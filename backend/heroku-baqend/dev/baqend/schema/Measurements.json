@@ -1,0 +1,42 @@
+{
+  "class": "/db/Measurements",
+  "superClass": "/db/Object",
+  "acl": {
+    "schemaAdd": {
+      "/db/Role/1": "allow"
+    },
+    "schemaReplace": {
+      "/db/Role/1": "allow"
+    },
+    "schemaSubclass": {
+      "/db/Role/1": "allow"
+    }
+  },
+  "fields": {
+    "PP_10": {
+      "name": "PP_10",
+      "type": "/db/collection.List[/db/JsonObject]",
+      "order": 0
+    },
+    "TT_10": {
+      "name": "TT_10",
+      "type": "/db/collection.List[/db/JsonObject]",
+      "order": 1
+    },
+    "FF_10": {
+      "name": "FF_10",
+      "type": "/db/collection.List[/db/JsonObject]",
+      "order": 2
+    },
+    "DD_10": {
+      "name": "DD_10",
+      "type": "/db/collection.List[/db/JsonObject]",
+      "order": 3
+    },
+    "RWS_10": {
+      "name": "RWS_10",
+      "type": "/db/collection.List[/db/JsonObject]",
+      "order": 4
+    }
+  }
+}
