@@ -102,7 +102,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v7');
+        await db.connect('ezwwa-be-v8');
         await db.ready();
 
     } catch (err) {
@@ -243,7 +243,8 @@ const trackValues = async (type) => {
 
             // subscribe to the forecasts entity to track changes.
             // remove whitespace from mos id.
-            const sub = db.Forecasts.find(currentMosId.replace(/\s/g, ""))
+            const sub = db.Forecasts.find()
+                .equal('mos_id', currentMosId.replace(/\s/g, ""))
                 .resultStream((forecast) => {
 
                     // RRL1c
@@ -286,10 +287,10 @@ const trackValues = async (type) => {
                     let r101Arr = [];
 
                     // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].RRL1c) {
+                    for (let element in forecast[0].R101) {
 
                         // get the reading element JSON object.
-                        let reading = forecast[0].RRL1c[element];
+                        let reading = forecast[0].R101[element];
 
                         // if its date is between start and end times..
                         if (reading.date >= startTime && reading.date <= endTime) {
@@ -306,11 +307,11 @@ const trackValues = async (type) => {
                     } // endfor
 
                     // clear previous dataset from chart.
-                    chartRemoveDataset(rsChart, mosLabel).then(() => {
+                    chartRemoveDataset(r101Chart, mosLabel).then(() => {
 
                         // add each element from the result array to the chart.
                         for (let element in r101Arr) {
-                            chartAddData(rsChart, mosLabel, r101Arr[element]);
+                            chartAddData(r101Chart, mosLabel, r101Arr[element]);
                         } //endfor
                     });
 
@@ -457,7 +458,8 @@ const trackValues = async (type) => {
         } else if (type == "measurements") {
 
             // subscribe to the measurements entity to track changes.
-            const sub = db.Measurements.find(currentDwdId)
+            const sub = db.Measurements.find()
+                .equal('dwd_id', currentDwdId)
                 .resultStream((measurement) => {
 
                     // TODO: decide whether to use 1 or 10 min rr.

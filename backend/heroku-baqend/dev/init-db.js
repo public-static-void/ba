@@ -40,7 +40,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v7');
+        await db.connect('ezwwa-be-v8');
         await db.ready();
 
         // login with a user who has admin permissions.
@@ -101,6 +101,7 @@ const initDbBe = async (arr) => {
 
             // set the properties.
             measurements.id = line[0];
+            measurements.dwd_id = line[0];
             measurements.PP_10 = [];
             measurements.TT_10 = [];
             measurements.FF_10 = [];
@@ -115,6 +116,7 @@ const initDbBe = async (arr) => {
             // set the properties.
             // remove whitespace from mos id.
             forecasts.id = line[1].replace(/\s/g, "");
+            forecasts.mos_id = line[1].replace(/\s/g, "");
             forecasts.PPPP = [];
             forecasts.TTT = [];
             forecasts.FF = [];

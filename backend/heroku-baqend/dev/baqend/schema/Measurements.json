@@ -12,31 +12,37 @@
       "/db/Role/1": "allow"
     }
   },
+  "metadata": {},
   "fields": {
+    "dwd_id": {
+      "name": "dwd_id",
+      "type": "/db/String",
+      "order": 0
+    },
     "PP_10": {
       "name": "PP_10",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 0
+      "order": 1
     },
     "TT_10": {
       "name": "TT_10",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 1
+      "order": 2
     },
     "FF_10": {
       "name": "FF_10",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 2
+      "order": 3
     },
     "DD_10": {
       "name": "DD_10",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 3
+      "order": 4
     },
     "RWS_10": {
       "name": "RWS_10",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 4
+      "order": 5
     }
   }
 }

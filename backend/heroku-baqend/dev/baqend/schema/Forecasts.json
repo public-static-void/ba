@@ -12,36 +12,42 @@
       "/db/Role/1": "allow"
     }
   },
+  "metadata": {},
   "fields": {
+    "mos_id": {
+      "name": "mos_id",
+      "type": "/db/String",
+      "order": 0
+    },
     "PPPP": {
       "name": "PPPP",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 0
+      "order": 1
     },
     "TTT": {
       "name": "TTT",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 1
+      "order": 2
     },
     "FF": {
       "name": "FF",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 2
+      "order": 3
     },
     "DD": {
       "name": "DD",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 3
+      "order": 4
     },
     "RRL1c": {
       "name": "RRL1c",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 4
+      "order": 5
     },
     "R101": {
       "name": "R101",
       "type": "/db/collection.List[/db/JsonObject]",
-      "order": 5
+      "order": 6
     }
   }
 }

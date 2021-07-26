@@ -704,7 +704,7 @@ const connectToDb = async () => {
     try {
 
         // connect to the database.
-        await db.connect('ezwwa-be-v7');
+        await db.connect('ezwwa-be-v8');
         await db.ready();
 
         // log out possible previous user.
@@ -746,9 +746,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                         const update = measurements.partialUpdate()
                             // set the properties.
                             .set('RWS_10', dataArr[i].rws);
+                        update.execute();
                         // avoid "Error: Current operation has not been finished."
                         sleep(200);
-                        return update.execute();
                     });
 
             } // endfor
@@ -769,9 +769,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                         const update = measurements.partialUpdate()
                             // set the properties.
                             .set('RS_01', dataArr[i].rs);
+                        update.execute();
                         // avoid "Error: Current operation has not been finished."
                         sleep(200);
-                        return update.execute();
                     });
 
             } // endfor
@@ -792,9 +792,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             // set the properties.
                             .set('FF_10', dataArr[i].ff)
                             .set('DD_10', dataArr[i].dd);
+                        update.execute();
                         // avoid "Error: Current operation has not been finished."
                         sleep(200);
-                        return update.execute();
                     });
 
             } // endfor
@@ -815,9 +815,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             // set the properties.
                             .set('TT_10', dataArr[i].tt)
                             .set('PP_10', dataArr[i].pp);
+                        update.execute();
                         // avoid "Error: Current operation has not been finished."
                         sleep(200);
-                        return update.execute();
                     });
 
             } // endfor
@@ -842,9 +842,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('DD', dataArr[i].dd)
                             .set('RRL1c', dataArr[i].rrl1c)
                             .set('R101', dataArr[i].r101);
+                        update.execute();
                         // avoid "Error: Current operation has not been finished."
                         sleep(200);
-                        return update.execute();
                     });
 
             } // endfor
