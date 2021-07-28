@@ -102,7 +102,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v8');
+        await db.connect('ezwwa-be-v9');
         await db.ready();
 
     } catch (err) {

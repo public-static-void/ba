@@ -704,7 +704,7 @@ const connectToDb = async () => {
     try {
 
         // connect to the database.
-        await db.connect('ezwwa-be-v8');
+        await db.connect('ezwwa-be-v9');
         await db.ready();
 
         // log out possible previous user.
