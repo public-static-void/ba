@@ -31,7 +31,8 @@ exports.basicFtpLastMod = async (filePath) => {
     try {
         // connect to ftp server.
         await client.access({
-            host: "opendata.dwd.de",
+            //host: "opendata.dwd.de",
+            host: "141.38.2.22",
             user: "anonymous",
             password: "",
             secure: false
@@ -63,7 +64,8 @@ exports.basicFtpLastModArr = async (dirPath, fileNameArr) => {
     try {
         // connect to ftp server.
         await client.access({
-            host: "opendata.dwd.de",
+            //host: "opendata.dwd.de",
+            host: "141.38.2.22",
             user: "anonymous",
             password: "",
             secure: false

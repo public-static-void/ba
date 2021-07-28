@@ -32,7 +32,8 @@ exports.basicFtpDown = async (sourcePath, targetPath) => {
 
         // connect to ftp server.
         await client.access({
-            host: "opendata.dwd.de",
+            //host: "opendata.dwd.de",
+            host: "141.38.2.22",
             user: "anonymous",
             password: "",
             secure: false
@@ -65,7 +66,8 @@ exports.basicFtpDownArr = async (sourcePath, sourceArr, targetPath) => {
 
         // connect to ftp server.
         await client.access({
-            host: "opendata.dwd.de",
+            //host: "opendata.dwd.de",
+            host: "141.38.2.22",
             user: "anonymous",
             password: "",
             secure: false
