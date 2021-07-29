@@ -741,14 +741,14 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
                 // find the measurements entity corresponding to the id.
                 await db.Measurements.load(id)
-                    .then((measurements) => {
+                    .then(async (measurements) => {
                         // perform a partial update.
-                        const update = measurements.partialUpdate()
+                        const update = await measurements.partialUpdate()
                             // set the properties.
                             .set('RWS_10', dataArr[i].rws);
-                        update.execute();
+                        await update.execute();
                         // avoid "Error: Current operation has not been finished."
-                        sleep(200);
+                        await sleep(200);
                     });
 
             } // endfor
@@ -764,14 +764,14 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
                 // find the measurements entity corresponding to the id.
                 await db.Measurements.load(id)
-                    .then((measurements) => {
+                    .then(async (measurements) => {
                         // perform a partial update.
-                        const update = measurements.partialUpdate()
+                        const update = await measurements.partialUpdate()
                             // set the properties.
                             .set('RS_01', dataArr[i].rs);
-                        update.execute();
+                        await update.execute();
                         // avoid "Error: Current operation has not been finished."
-                        sleep(200);
+                        await sleep(200);
                     });
 
             } // endfor
@@ -786,15 +786,15 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
                 // find the measurements entity corresponding to the id.
                 await db.Measurements.load(id)
-                    .then((measurements) => {
+                    .then(async (measurements) => {
                         // perform a partial update.
-                        const update = measurements.partialUpdate()
+                        const update = await measurements.partialUpdate()
                             // set the properties.
                             .set('FF_10', dataArr[i].ff)
                             .set('DD_10', dataArr[i].dd);
-                        update.execute();
+                        await update.execute();
                         // avoid "Error: Current operation has not been finished."
-                        sleep(200);
+                        await sleep(200);
                     });
 
             } // endfor
@@ -809,15 +809,15 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
                 // find the measurements entity corresponding to the id.
                 await db.Measurements.load(id)
-                    .then((measurements) => {
+                    .then(async (measurements) => {
                         // perform a partial update.
-                        const update = measurements.partialUpdate()
+                        const update = await measurements.partialUpdate()
                             // set the properties.
                             .set('TT_10', dataArr[i].tt)
                             .set('PP_10', dataArr[i].pp);
-                        update.execute();
+                        await update.execute();
                         // avoid "Error: Current operation has not been finished."
-                        sleep(200);
+                        await sleep(200);
                     });
 
             } // endfor
@@ -832,9 +832,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
                 // find the forecasts entity corresponding to the id.
                 await db.Forecasts.load(id)
-                    .then((forecasts) => {
+                    .then(async (forecasts) => {
                         // perform a partial update.
-                        const update = forecasts.partialUpdate()
+                        const update = await forecasts.partialUpdate()
                             // set the properties.
                             .set('PPPP', dataArr[i].pppp)
                             .set('TTT', dataArr[i].ttt)
@@ -842,9 +842,9 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('DD', dataArr[i].dd)
                             .set('RRL1c', dataArr[i].rrl1c)
                             .set('R101', dataArr[i].r101);
-                        update.execute();
+                        await update.execute();
                         // avoid "Error: Current operation has not been finished."
-                        sleep(200);
+                        await sleep(200);
                     });
 
             } // endfor
