@@ -79,6 +79,7 @@ const timeLabels = [];
 
 // current state of selected time and stations.
 let currentTimeIntervals = [];
+let currentDay = "";
 
 let currentDwdId = "";
 let currentMosId = "";
@@ -102,7 +103,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v9');
+        await db.connect('ezwwa-be-v10');
         await db.ready();
 
     } catch (err) {
@@ -241,219 +242,657 @@ const trackValues = async (type) => {
         // check for type of values to track and perform appropriate steps.
         if (type == "forecasts") {
 
-            // subscribe to the forecasts entity to track changes.
-            // remove whitespace from mos id.
-            const sub = db.Forecasts.find()
-                .equal('mos_id', currentMosId.replace(/\s/g, ""))
-                .resultStream((forecast) => {
+            // today.
 
-                    // RRL1c
+            if (currentDay == "today") {
 
-                    // initialize array to store reading results in.
-                    let rrl1cArr = [];
+                // subscribe to the forecasts entity to track changes.
+                // remove whitespace from mos id.
+                const sub = db.Today.find()
+                    .equal('mos_id', currentMosId.replace(/\s/g, ""))
+                    .resultStream((forecast) => {
 
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].RRL1c) {
+                        // RRL1c
 
-                        // get the reading element JSON object.
-                        let reading = forecast[0].RRL1c[element];
+                        // initialize array to store reading results in.
+                        let rrl1cArr = [];
 
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].RRL1c) {
 
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // apply transformations to the value attribute.
-                            const value = rrl1cToRws(reading.value).toFixed(4);
+                            // get the reading element JSON object.
+                            let reading = forecast[0].RRL1c[element];
 
-                            // and add it to the result array.
-                            rrl1cArr.push({ x: time, y: value });
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
 
-                        } // endif
-                    } // endfor
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = rrl1cToRws(reading.value).toFixed(4);
 
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(rsChart, mosLabel).then(() => {
+                                // and add it to the result array.
+                                rrl1cArr.push({ x: time, y: value });
 
-                        // add each element from the result array to the chart.
-                        for (let element in rrl1cArr) {
-                            chartAddData(rsChart, mosLabel, rrl1cArr[element]);
-                        } //endfor
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(rsChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in rrl1cArr) {
+                                chartAddData(rsChart, mosLabel, rrl1cArr[element]);
+                            } //endfor
+                        });
+
+                        // R101
+
+                        // initialize array to store reading results in.
+                        let r101Arr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].R101) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].R101[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                r101Arr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(r101Chart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in r101Arr) {
+                                chartAddData(r101Chart, mosLabel, r101Arr[element]);
+                            } //endfor
+                        });
+
+                        // FF
+
+                        // initialize array to store reading results in.
+                        let ffArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].FF) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].FF[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ffArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ffChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ffArr) {
+                                chartAddData(ffChart, mosLabel, ffArr[element]);
+                            } //endfor
+                        });
+
+                        // DD
+
+                        // initialize array to store reading results in.
+                        let ddArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].DD) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].DD[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ddArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ddChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ddArr) {
+                                chartAddData(ddChart, mosLabel, ddArr[element]);
+                            } //endfor
+                        });
+
+                        // PPPP
+
+                        // initialize array to store reading results in.
+                        let ppppArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].PPPP) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].PPPP[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = ppppToPp(reading.value).toFixed(1);
+
+                                // and add it to the result array.
+                                ppppArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ppChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ppppArr) {
+                                chartAddData(ppChart, mosLabel, ppppArr[element]);
+                            } //endfor
+                        });
+
+                        // TTT
+
+                        // initialize array to store reading results in.
+                        let tttArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].TTT) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].TTT[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = tttToTt(reading.value).toFixed(1)
+
+                                // and add it to the result array.
+                                tttArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ttChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in tttArr) {
+                                chartAddData(ttChart, mosLabel, tttArr[element]);
+                            } //endfor
+                        });
                     });
 
-                    // R101
+                // add to global array with active subscribtions.
+                currentSubs.push(sub);
 
-                    // initialize array to store reading results in.
-                    let r101Arr = [];
+            } else if (currentDay == "tomorrow") {
 
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].R101) {
+                // subscribe to the forecasts entity to track changes.
+                // remove whitespace from mos id.
+                const sub = db.Tomorrow.find()
+                    .equal('mos_id', currentMosId.replace(/\s/g, ""))
+                    .resultStream((forecast) => {
 
-                        // get the reading element JSON object.
-                        let reading = forecast[0].R101[element];
+                        // RRL1c
 
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
+                        // initialize array to store reading results in.
+                        let rrl1cArr = [];
 
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // no transformation needed.
-                            const value = reading.value;
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].RRL1c) {
 
-                            // and add it to the result array.
-                            r101Arr.push({ x: time, y: value });
+                            // get the reading element JSON object.
+                            let reading = forecast[0].RRL1c[element];
 
-                        } // endif
-                    } // endfor
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
 
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(r101Chart, mosLabel).then(() => {
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = rrl1cToRws(reading.value).toFixed(4);
 
-                        // add each element from the result array to the chart.
-                        for (let element in r101Arr) {
-                            chartAddData(r101Chart, mosLabel, r101Arr[element]);
-                        } //endfor
+                                // and add it to the result array.
+                                rrl1cArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(rsChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in rrl1cArr) {
+                                chartAddData(rsChart, mosLabel, rrl1cArr[element]);
+                            } //endfor
+                        });
+
+                        // R101
+
+                        // initialize array to store reading results in.
+                        let r101Arr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].R101) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].R101[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                r101Arr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(r101Chart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in r101Arr) {
+                                chartAddData(r101Chart, mosLabel, r101Arr[element]);
+                            } //endfor
+                        });
+
+                        // FF
+
+                        // initialize array to store reading results in.
+                        let ffArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].FF) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].FF[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ffArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ffChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ffArr) {
+                                chartAddData(ffChart, mosLabel, ffArr[element]);
+                            } //endfor
+                        });
+
+                        // DD
+
+                        // initialize array to store reading results in.
+                        let ddArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].DD) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].DD[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ddArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ddChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ddArr) {
+                                chartAddData(ddChart, mosLabel, ddArr[element]);
+                            } //endfor
+                        });
+
+                        // PPPP
+
+                        // initialize array to store reading results in.
+                        let ppppArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].PPPP) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].PPPP[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = ppppToPp(reading.value).toFixed(1);
+
+                                // and add it to the result array.
+                                ppppArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ppChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ppppArr) {
+                                chartAddData(ppChart, mosLabel, ppppArr[element]);
+                            } //endfor
+                        });
+
+                        // TTT
+
+                        // initialize array to store reading results in.
+                        let tttArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].TTT) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].TTT[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = tttToTt(reading.value).toFixed(1)
+
+                                // and add it to the result array.
+                                tttArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ttChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in tttArr) {
+                                chartAddData(ttChart, mosLabel, tttArr[element]);
+                            } //endfor
+                        });
                     });
 
-                    // FF
+                // add to global array with active subscribtions.
+                currentSubs.push(sub);
 
-                    // initialize array to store reading results in.
-                    let ffArr = [];
+            } else if (currentDay == "dayaftertomorrow") {
 
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].FF) {
+                // subscribe to the forecasts entity to track changes.
+                // remove whitespace from mos id.
+                const sub = db.Dayafter.find()
+                    .equal('mos_id', currentMosId.replace(/\s/g, ""))
+                    .resultStream((forecast) => {
 
-                        // get the reading element JSON object.
-                        let reading = forecast[0].FF[element];
+                        // RRL1c
 
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
+                        // initialize array to store reading results in.
+                        let rrl1cArr = [];
 
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // no transformation needed.
-                            const value = reading.value;
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].RRL1c) {
 
-                            // and add it to the result array.
-                            ffArr.push({ x: time, y: value });
+                            // get the reading element JSON object.
+                            let reading = forecast[0].RRL1c[element];
 
-                        } // endif
-                    } // endfor
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
 
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(ffChart, mosLabel).then(() => {
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = rrl1cToRws(reading.value).toFixed(4);
 
-                        // add each element from the result array to the chart.
-                        for (let element in ffArr) {
-                            chartAddData(ffChart, mosLabel, ffArr[element]);
-                        } //endfor
+                                // and add it to the result array.
+                                rrl1cArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(rsChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in rrl1cArr) {
+                                chartAddData(rsChart, mosLabel, rrl1cArr[element]);
+                            } //endfor
+                        });
+
+                        // R101
+
+                        // initialize array to store reading results in.
+                        let r101Arr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].R101) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].R101[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                r101Arr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(r101Chart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in r101Arr) {
+                                chartAddData(r101Chart, mosLabel, r101Arr[element]);
+                            } //endfor
+                        });
+
+                        // FF
+
+                        // initialize array to store reading results in.
+                        let ffArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].FF) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].FF[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ffArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ffChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ffArr) {
+                                chartAddData(ffChart, mosLabel, ffArr[element]);
+                            } //endfor
+                        });
+
+                        // DD
+
+                        // initialize array to store reading results in.
+                        let ddArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].DD) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].DD[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // no transformation needed.
+                                const value = reading.value;
+
+                                // and add it to the result array.
+                                ddArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ddChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ddArr) {
+                                chartAddData(ddChart, mosLabel, ddArr[element]);
+                            } //endfor
+                        });
+
+                        // PPPP
+
+                        // initialize array to store reading results in.
+                        let ppppArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].PPPP) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].PPPP[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = ppppToPp(reading.value).toFixed(1);
+
+                                // and add it to the result array.
+                                ppppArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ppChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in ppppArr) {
+                                chartAddData(ppChart, mosLabel, ppppArr[element]);
+                            } //endfor
+                        });
+
+                        // TTT
+
+                        // initialize array to store reading results in.
+                        let tttArr = [];
+
+                        // for all elements in the list of forecast readings...
+                        for (let element in forecast[0].TTT) {
+
+                            // get the reading element JSON object.
+                            let reading = forecast[0].TTT[element];
+
+                            // if its date is between start and end times..
+                            if (reading.date >= startTime && reading.date <= endTime) {
+
+                                // convert timestamp to date object.
+                                const time = new Date(parseInt(reading.date));
+                                // apply transformations to the value attribute.
+                                const value = tttToTt(reading.value).toFixed(1)
+
+                                // and add it to the result array.
+                                tttArr.push({ x: time, y: value });
+
+                            } // endif
+                        } // endfor
+
+                        // clear previous dataset from chart.
+                        chartRemoveDataset(ttChart, mosLabel).then(() => {
+
+                            // add each element from the result array to the chart.
+                            for (let element in tttArr) {
+                                chartAddData(ttChart, mosLabel, tttArr[element]);
+                            } //endfor
+                        });
                     });
 
-                    // DD
+                // add to global array with active subscribtions.
+                currentSubs.push(sub);
 
-                    // initialize array to store reading results in.
-                    let ddArr = [];
-
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].DD) {
-
-                        // get the reading element JSON object.
-                        let reading = forecast[0].DD[element];
-
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
-
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // no transformation needed.
-                            const value = reading.value;
-
-                            // and add it to the result array.
-                            ddArr.push({ x: time, y: value });
-
-                        } // endif
-                    } // endfor
-
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(ddChart, mosLabel).then(() => {
-
-                        // add each element from the result array to the chart.
-                        for (let element in ddArr) {
-                            chartAddData(ddChart, mosLabel, ddArr[element]);
-                        } //endfor
-                    });
-
-                    // PPPP
-
-                    // initialize array to store reading results in.
-                    let ppppArr = [];
-
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].PPPP) {
-
-                        // get the reading element JSON object.
-                        let reading = forecast[0].PPPP[element];
-
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
-
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // apply transformations to the value attribute.
-                            const value = ppppToPp(reading.value).toFixed(1);
-
-                            // and add it to the result array.
-                            ppppArr.push({ x: time, y: value });
-
-                        } // endif
-                    } // endfor
-
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(ppChart, mosLabel).then(() => {
-
-                        // add each element from the result array to the chart.
-                        for (let element in ppppArr) {
-                            chartAddData(ppChart, mosLabel, ppppArr[element]);
-                        } //endfor
-                    });
-
-                    // TTT
-
-                    // initialize array to store reading results in.
-                    let tttArr = [];
-
-                    // for all elements in the list of forecast readings...
-                    for (let element in forecast[0].TTT) {
-
-                        // get the reading element JSON object.
-                        let reading = forecast[0].TTT[element];
-
-                        // if its date is between start and end times..
-                        if (reading.date >= startTime && reading.date <= endTime) {
-
-                            // convert timestamp to date object.
-                            const time = new Date(parseInt(reading.date));
-                            // apply transformations to the value attribute.
-                            const value = tttToTt(reading.value).toFixed(1)
-
-                            // and add it to the result array.
-                            tttArr.push({ x: time, y: value });
-
-                        } // endif
-                    } // endfor
-
-                    // clear previous dataset from chart.
-                    chartRemoveDataset(ttChart, mosLabel).then(() => {
-
-                        // add each element from the result array to the chart.
-                        for (let element in tttArr) {
-                            chartAddData(ttChart, mosLabel, tttArr[element]);
-                        } //endfor
-                    });
-                });
-
-            // add to global array with active subscribtions.
-            currentSubs.push(sub);
+            } // endif
 
         } else if (type == "measurements") {
 
@@ -1048,6 +1487,7 @@ const setTimeIntervals = (day) => {
     try {
 
         currentTimeIntervals = getTimeLimits(day);
+        currentDay = day;
 
     } catch (err) {
         console.log(err);

@@ -92,6 +92,9 @@ let mosTime = [];
 const dwdIdsArr = parser.parseTxt(cfgPath + metaFile, "dwdid", 0);
 const mosIdsArr = parser.parseTxt(cfgPath + metaFile, "mosid", 0);
 
+// constants.
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
 /**
  * ------------------------
  * --- HELPER FUNCTIONS ---
@@ -704,7 +707,7 @@ const connectToDb = async () => {
     try {
 
         // connect to the database.
-        await db.connect('ezwwa-be-v9');
+        await db.connect('ezwwa-be-v10');
         await db.ready();
 
         // log out possible previous user.
@@ -712,6 +715,50 @@ const connectToDb = async () => {
 
         // Login with a user who has admin permissions
         await db.User.login("admin", "admin");
+
+        // remove any rate limiting just in case there is some.
+        await new db.message.Unban();
+
+    } catch (err) {
+        console.log(err);
+    } // endtry
+} // endfun
+
+/**
+ * helper function. computes the time interval limits of a specified day.
+ * 
+ * @param {String}  day the time requested, e.g. today, tomorrow or 
+ *                              dayaftertomorrow.
+ * 
+ * @returns {Array} array containing starting and ending interval of a day.
+ */
+const getTimeLimits = (day) => {
+    try {
+
+        // time of the start of a day.
+        const beginningOfToday = new Date();
+        beginningOfToday.setHours(0);
+        beginningOfToday.setMinutes(0);
+        // begin early to make sure first measurement at 00:00 gets tracked.
+        beginningOfToday.setSeconds(-1);
+
+        // time of the end of a day.
+        const endOfToday = new Date();
+        endOfToday.setHours(24);
+        endOfToday.setMinutes(0);
+        endOfToday.setSeconds(0);
+
+        let resultTime = [];
+
+        if (day == "today") {
+            resultTime.push(beginningOfToday.getTime(), endOfToday.getTime());
+        } else if (day == "tomorrow") {
+            resultTime.push(beginningOfToday.getTime() + DAY_IN_MS, endOfToday.getTime() + DAY_IN_MS);
+        } else if (day == "dayaftertomorrow") {
+            resultTime.push(beginningOfToday.getTime() + 2 * DAY_IN_MS, endOfToday.getTime() + 2 * DAY_IN_MS);
+        }// endif
+
+        return resultTime;
 
     } catch (err) {
         console.log(err);
@@ -747,7 +794,7 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             // set the properties.
                             .set('RWS_10', dataArr[i].rws);
                         // avoid "Error: Current operation has not been finished."
-                        await sleep(200);
+                        await sleep(350);
                         await update.execute();
                     });
 
@@ -770,7 +817,7 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             // set the properties.
                             .set('RS_01', dataArr[i].rs);
                         // avoid "Error: Current operation has not been finished."
-                        await sleep(200);
+                        await sleep(350);
                         await update.execute();
                     });
 
@@ -793,7 +840,7 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('FF_10', dataArr[i].ff)
                             .set('DD_10', dataArr[i].dd);
                         // avoid "Error: Current operation has not been finished."
-                        await sleep(200);
+                        await sleep(350);
                         await update.execute();
                     });
 
@@ -816,7 +863,7 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('TT_10', dataArr[i].tt)
                             .set('PP_10', dataArr[i].pp);
                         // avoid "Error: Current operation has not been finished."
-                        await sleep(200);
+                        await sleep(350);
                         await update.execute();
                     });
 
@@ -824,26 +871,215 @@ const insertArrIntoDbBe = async (type, dataArr) => {
 
         } else if (type == "mos") {
 
+            // get the time intervals for today, tomorrow and the day after.
+            let timesTodayArr = getTimeLimits("today");
+            let timesTomorrowArr = getTimeLimits("tomorrow");
+            let timesDayafterArr = getTimeLimits("dayaftertomorrow");
+
             // for each entry in the data array..
             for (let i in dataArr) {
 
                 // get the id.
                 let id = dataArr[i].mosId.replace(/\s/g, "");
 
+                // today.
+
+                // PPPP
+                let todayPPPP = [];
+                for (let j in dataArr[i].pppp) {
+                    if ((dataArr[i].pppp[j].date >= timesTodayArr[0]) && (dataArr[i].pppp[j].date <= timesTodayArr[1])) {
+                        todayPPPP.push(dataArr[i].pppp[j]);
+                    } // endif
+                } // endfor
+
+                // TTT
+                let todayTTT = [];
+                for (let j in dataArr[i].ttt) {
+                    if ((dataArr[i].ttt[j].date >= timesTodayArr[0]) && (dataArr[i].ttt[j].date <= timesTodayArr[1])) {
+                        todayTTT.push(dataArr[i].ttt[j]);
+                    } // endif
+                } // endfor
+
+                // FF
+                let todayFF = [];
+                for (let j in dataArr[i].ff) {
+                    if ((dataArr[i].ff[j].date >= timesTodayArr[0]) && (dataArr[i].ff[j].date <= timesTodayArr[1])) {
+                        todayFF.push(dataArr[i].ff[j]);
+                    } // endif
+                } // endfor
+
+                // DD
+                let todayDD = [];
+                for (let j in dataArr[i].dd) {
+                    if ((dataArr[i].dd[j].date >= timesTodayArr[0]) && (dataArr[i].dd[j].date <= timesTodayArr[1])) {
+                        todayDD.push(dataArr[i].dd[j]);
+                    } // endif
+                } // endfor
+
+                // RRL1c
+                let todayRRL1c = [];
+                for (let j in dataArr[i].rrl1c) {
+                    if ((dataArr[i].rrl1c[j].date >= timesTodayArr[0]) && (dataArr[i].rrl1c[j].date <= timesTodayArr[1])) {
+                        todayRRL1c.push(dataArr[i].rrl1c[j]);
+                    } // endif
+                } // endfor
+
+                // R101
+                let todayR101 = [];
+                for (let j in dataArr[i].r101) {
+                    if ((dataArr[i].r101[j].date >= timesTodayArr[0]) && (dataArr[i].r101[j].date <= timesTodayArr[1])) {
+                        todayR101.push(dataArr[i].r101[j]);
+                    } // endif
+                } // endfor
+
                 // find the forecasts entity corresponding to the id.
-                await db.Forecasts.load(id)
-                    .then(async (forecasts) => {
+                await db.Today.load(id)
+                    .then(async (today) => {
                         // perform a partial update.
-                        const update = await forecasts.partialUpdate()
+                        const update = await today.partialUpdate()
                             // set the properties.
-                            .set('PPPP', dataArr[i].pppp)
-                            .set('TTT', dataArr[i].ttt)
-                            .set('FF', dataArr[i].ff)
-                            .set('DD', dataArr[i].dd)
-                            .set('RRL1c', dataArr[i].rrl1c)
-                            .set('R101', dataArr[i].r101);
+                            .set('PPPP', todayPPPP)
+                            .set('TTT', todayTTT)
+                            .set('FF', todayFF)
+                            .set('DD', todayDD)
+                            .set('RRL1c', todayRRL1c)
+                            .set('R101', todayR101);
                         // avoid "Error: Current operation has not been finished."
-                        await sleep(200);
+                        await sleep(350);
+                        await update.execute();
+                    });
+
+                // tomorrow.
+
+                // PPPP
+                let tomorrowPPPP = [];
+                for (let j in dataArr[i].pppp) {
+                    if ((dataArr[i].pppp[j].date >= timesTomorrowArr[0]) && (dataArr[i].pppp[j].date <= timesTomorrowArr[1])) {
+                        tomorrowPPPP.push(dataArr[i].pppp[j]);
+                    } // endif
+                } // endfor
+
+                // TTT
+                let tomorrowTTT = [];
+                for (let j in dataArr[i].ttt) {
+                    if ((dataArr[i].ttt[j].date >= timesTomorrowArr[0]) && (dataArr[i].ttt[j].date <= timesTomorrowArr[1])) {
+                        tomorrowTTT.push(dataArr[i].ttt[j]);
+                    } // endif
+                } // endfor
+
+                // FF
+                let tomorrowFF = [];
+                for (let j in dataArr[i].ff) {
+                    if ((dataArr[i].ff[j].date >= timesTomorrowArr[0]) && (dataArr[i].ff[j].date <= timesTomorrowArr[1])) {
+                        tomorrowFF.push(dataArr[i].ff[j]);
+                    } // endif
+                } // endfor
+
+                // DD
+                let tomorrowDD = [];
+                for (let j in dataArr[i].dd) {
+                    if ((dataArr[i].dd[j].date >= timesTomorrowArr[0]) && (dataArr[i].dd[j].date <= timesTomorrowArr[1])) {
+                        tomorrowDD.push(dataArr[i].dd[j]);
+                    } // endif
+                } // endfor
+
+                // RRL1c
+                let tomorrowRRL1c = [];
+                for (let j in dataArr[i].rrl1c) {
+                    if ((dataArr[i].rrl1c[j].date >= timesTomorrowArr[0]) && (dataArr[i].rrl1c[j].date <= timesTomorrowArr[1])) {
+                        tomorrowRRL1c.push(dataArr[i].rrl1c[j]);
+                    } // endif
+                } // endfor
+
+                // R101
+                let tomorrowR101 = [];
+                for (let j in dataArr[i].r101) {
+                    if ((dataArr[i].r101[j].date >= timesTomorrowArr[0]) && (dataArr[i].r101[j].date <= timesTomorrowArr[1])) {
+                        tomorrowR101.push(dataArr[i].r101[j]);
+                    } // endif
+                } // endfor
+
+                // find the forecasts entity corresponding to the id.
+                await db.Tomorrow.load(id)
+                    .then(async (tomorrow) => {
+                        // perform a partial update.
+                        const update = await tomorrow.partialUpdate()
+                            // set the properties.
+                            .set('PPPP', tomorrowPPPP)
+                            .set('TTT', tomorrowTTT)
+                            .set('FF', tomorrowFF)
+                            .set('DD', tomorrowDD)
+                            .set('RRL1c', tomorrowRRL1c)
+                            .set('R101', tomorrowR101);
+                        // avoid "Error: Current operation has not been finished."
+                        await sleep(350);
+                        await update.execute();
+                    });
+
+                // dayafter.
+
+                // PPPP
+                let dayafterPPPP = [];
+                for (let j in dataArr[i].pppp) {
+                    if ((dataArr[i].pppp[j].date >= timesDayafterArr[0]) && (dataArr[i].pppp[j].date <= timesDayafterArr[1])) {
+                        dayafterPPPP.push(dataArr[i].pppp[j]);
+                    } // endif
+                } // endfor
+
+                // TTT
+                let dayafterTTT = [];
+                for (let j in dataArr[i].ttt) {
+                    if ((dataArr[i].ttt[j].date >= timesDayafterArr[0]) && (dataArr[i].ttt[j].date <= timesDayafterArr[1])) {
+                        dayafterTTT.push(dataArr[i].ttt[j]);
+                    } // endif
+                } // endfor
+
+                // FF
+                let dayafterFF = [];
+                for (let j in dataArr[i].ff) {
+                    if ((dataArr[i].ff[j].date >= timesDayafterArr[0]) && (dataArr[i].ff[j].date <= timesDayafterArr[1])) {
+                        dayafterFF.push(dataArr[i].ff[j]);
+                    } // endif
+                } // endfor
+
+                // DD
+                let dayafterDD = [];
+                for (let j in dataArr[i].dd) {
+                    if ((dataArr[i].dd[j].date >= timesDayafterArr[0]) && (dataArr[i].dd[j].date <= timesDayafterArr[1])) {
+                        dayafterDD.push(dataArr[i].dd[j]);
+                    } // endif
+                } // endfor
+
+                // RRL1c
+                let dayafterRRL1c = [];
+                for (let j in dataArr[i].rrl1c) {
+                    if ((dataArr[i].rrl1c[j].date >= timesDayafterArr[0]) && (dataArr[i].rrl1c[j].date <= timesDayafterArr[1])) {
+                        dayafterRRL1c.push(dataArr[i].rrl1c[j]);
+                    } // endif
+                } // endfor
+
+                // R101
+                let dayafterR101 = [];
+                for (let j in dataArr[i].r101) {
+                    if ((dataArr[i].r101[j].date >= timesDayafterArr[0]) && (dataArr[i].r101[j].date <= timesDayafterArr[1])) {
+                        dayafterR101.push(dataArr[i].r101[j]);
+                    } // endif
+                } // endfor
+
+                // find the forecasts entity corresponding to the id.
+                await db.Dayafter.load(id)
+                    .then(async (dayafter) => {
+                        // perform a partial update.
+                        const update = await dayafter.partialUpdate()
+                            // set the properties.
+                            .set('PPPP', dayafterPPPP)
+                            .set('TTT', dayafterTTT)
+                            .set('FF', dayafterFF)
+                            .set('DD', dayafterDD)
+                            .set('RRL1c', dayafterRRL1c)
+                            .set('R101', dayafterR101);
+                        // avoid "Error: Current operation has not been finished."
+                        await sleep(350);
                         await update.execute();
                     });
 

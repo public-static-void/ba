@@ -40,7 +40,7 @@ const connectToDbBe = async () => {
     try {
 
         // get a database reference.
-        await db.connect('ezwwa-be-v9');
+        await db.connect('ezwwa-be-v10');
         await db.ready();
 
         // login with a user who has admin permissions.
@@ -112,19 +112,51 @@ const initDbBe = async (arr) => {
             await measurements.save({ force: true });
 
             // create new forecasts objects.
-            let forecasts = await new db.Forecasts();
+
+            // today.
+            let today = await new db.Today();
             // set the properties.
             // remove whitespace from mos id.
-            forecasts.id = line[1].replace(/\s/g, "");
-            forecasts.mos_id = line[1].replace(/\s/g, "");
-            forecasts.PPPP = [];
-            forecasts.TTT = [];
-            forecasts.FF = [];
-            forecasts.DD = [];
-            forecasts.RRL1c = [];
-            forecasts.R101 = [];
+            today.id = line[1].replace(/\s/g, "");
+            today.mos_id = line[1].replace(/\s/g, "");
+            today.PPPP = [];
+            today.TTT = [];
+            today.FF = [];
+            today.DD = [];
+            today.RRL1c = [];
+            today.R101 = [];
             // insert object into database.
-            await forecasts.save({ force: true });
+            await today.save({ force: true });
+
+            // tomorrow.
+            let tomorrow = await new db.Tomorrow();
+            // set the properties.
+            // remove whitespace from mos id.
+            tomorrow.id = line[1].replace(/\s/g, "");
+            tomorrow.mos_id = line[1].replace(/\s/g, "");
+            tomorrow.PPPP = [];
+            tomorrow.TTT = [];
+            tomorrow.FF = [];
+            tomorrow.DD = [];
+            tomorrow.RRL1c = [];
+            tomorrow.R101 = [];
+            // insert object into database.
+            await tomorrow.save({ force: true });
+
+            // the day after tomorrow.
+            let dayafter = await new db.Dayafter();
+            // set the properties.
+            // remove whitespace from mos id.
+            dayafter.id = line[1].replace(/\s/g, "");
+            dayafter.mos_id = line[1].replace(/\s/g, "");
+            dayafter.PPPP = [];
+            dayafter.TTT = [];
+            dayafter.FF = [];
+            dayafter.DD = [];
+            dayafter.RRL1c = [];
+            dayafter.R101 = [];
+            // insert object into database.
+            await dayafter.save({ force: true });
 
         } // endfor
 
