@@ -793,8 +793,6 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                         const update = await measurements.partialUpdate()
                             // set the properties.
                             .set('RWS_10', dataArr[i].rws);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
                         await update.execute();
                     });
 
@@ -815,9 +813,7 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                         // perform a partial update.
                         const update = await measurements.partialUpdate()
                             // set the properties.
-                            .set('RS_01', dataArr[i].rs);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
+                            .set('RS_01', await dataArr[i].rs);
                         await update.execute();
                     });
 
@@ -837,10 +833,8 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                         // perform a partial update.
                         const update = await measurements.partialUpdate()
                             // set the properties.
-                            .set('FF_10', dataArr[i].ff)
-                            .set('DD_10', dataArr[i].dd);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
+                            .set('FF_10', await dataArr[i].ff)
+                            .set('DD_10', await dataArr[i].dd);
                         await update.execute();
                     });
 
@@ -862,8 +856,6 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             // set the properties.
                             .set('TT_10', dataArr[i].tt)
                             .set('PP_10', dataArr[i].pp);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
                         await update.execute();
                     });
 
@@ -944,8 +936,6 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('DD', todayDD)
                             .set('RRL1c', todayRRL1c)
                             .set('R101', todayR101);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
                         await update.execute();
                     });
 
@@ -1011,8 +1001,6 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('DD', tomorrowDD)
                             .set('RRL1c', tomorrowRRL1c)
                             .set('R101', tomorrowR101);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
                         await update.execute();
                     });
 
@@ -1078,8 +1066,6 @@ const insertArrIntoDbBe = async (type, dataArr) => {
                             .set('DD', dayafterDD)
                             .set('RRL1c', dayafterRRL1c)
                             .set('R101', dayafterR101);
-                        // avoid "Error: Current operation has not been finished."
-                        await sleep(350);
                         await update.execute();
                     });
 
@@ -1137,7 +1123,7 @@ const cycleOneMinRR = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(oneMinRRSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 oneMinRRTime = timeMapArrs[1];
@@ -1180,7 +1166,7 @@ const cycleTenMinRR = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinRRSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinRRTime = timeMapArrs[1];
@@ -1222,7 +1208,7 @@ const cycleTenMinFF = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinFFSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinFFTime = timeMapArrs[1];
@@ -1264,7 +1250,7 @@ const cycleTenMinTU = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinTUSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinTUTime = timeMapArrs[1];
@@ -1306,7 +1292,7 @@ const cycleMos = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(mosSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 mosTime = timeMapArrs[1];
@@ -1338,17 +1324,25 @@ const cycleMos = async () => {
 const mainCycle = async () => {
     try {
 
+        /*         // wait for all following procedures to terminate...
+                Promise.all([
+                    // TODO: choose whether to use 1 or 10 min rr.
+                    //cycleOneMinRR(),
+                    cycleTenMinRR(),
+                    cycleTenMinFF(),
+                    cycleTenMinTU(),
+                    cycleMos()
+                ])
+                    // ...then repeat every 10 min.
+                    .then(() => { setTimeout(mainCycle, 600000) }); */
+
         // wait for all following procedures to terminate...
-        Promise.all([
-            // TODO: choose whether to use 1 or 10 min rr.
-            //cycleOneMinRR(),
-            cycleTenMinRR(),
-            cycleTenMinFF(),
-            cycleTenMinTU(),
-            cycleMos()
-        ])
-            // ...then repeat every 10 min.
-            .then(() => { setTimeout(mainCycle, 600000) });
+        await cycleTenMinRR()
+        await cycleTenMinFF(),
+            await cycleTenMinTU(),
+            await cycleMos()
+                // ...then repeat every 10 min.
+                .then(() => { setTimeout(mainCycle, 600000) });
 
     } catch (err) {
         console.log(err);
