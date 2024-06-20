@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.2",
-    "baqend": "^2.14.1",
+    "baqend": "^3.4.1",
     "underscore": "1.12.1",
     "xmldom": "^0.4.0"
   }
