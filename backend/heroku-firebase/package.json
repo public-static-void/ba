@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "adm-zip": "^0.5.2",
-    "firebase": "^8.10.1",
+    "firebase": "^10.9.0",
     "firebase-admin": "^12.1.1",
     "underscore": "1.12.1",
     "xmldom": "^0.6.0"
