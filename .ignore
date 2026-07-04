@@ -1,0 +1,2 @@
+# Whitelist KDs for agent tool access (gitignored but readable by tools)
+!knowledge/
