@@ -55,7 +55,15 @@ const forecasts = require('./lib/data-objects/forecasts.js');
 
 // firebase admin sdk setup.
 const fbAdmin = require("firebase-admin");
-const serviceAccount = require("./cfg/firebaseAdminKey.json");
+const serviceAccountPath = process.env.FIREBASE_ADMIN_KEY_PATH;
+const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+const serviceAccount = serviceAccountPath
+    ? require(serviceAccountPath)
+    : (serviceAccountJson ? JSON.parse(serviceAccountJson) : null);
+if (!serviceAccount) {
+    console.error("FATAL: Firebase admin credentials not found. Set FIREBASE_ADMIN_KEY_PATH or FIREBASE_SERVICE_ACCOUNT_JSON env var.");
+    process.exit(1);
+}
 fbAdmin.initializeApp({
     credential: fbAdmin.credential.cert(serviceAccount),
     databaseURL: "https://ezwwa-fb-default-rtdb.europe-west1.firebasedatabase.app/"
