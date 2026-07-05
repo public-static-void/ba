@@ -1,2 +1,21 @@
 # Agentic Swarm Knowledge Documents
 knowledge/
+
+# Node.js dependencies
+node_modules/
+backend/heroku-baqend/lib/basic-ftp-wrapper/node_modules/
+backend/heroku-firebase/lib/basic-ftp-wrapper/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Firebase admin credentials
+cfg/firebaseAdminKey.json
+backend/heroku-firebase/cfg/firebaseAdminKey.json
+backend/heroku-baqend/cfg/firebaseAdminKey.json
+
+# OS files
+.DS_Store
+Thumbs.db
