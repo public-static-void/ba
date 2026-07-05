@@ -1287,16 +1287,14 @@ const mainCycle = async () => {
     try {
 
         // wait for all following procedures to terminate...
-        Promise.all([
+        await Promise.all([
             // TODO: choose whether to use 1 or 10 min rr.
             //cycleOneMinRR(),
             cycleTenMinRR(),
             cycleTenMinFF(),
             cycleTenMinTU(),
             cycleMos()
-        ])
-            // ...then repeat every 10 min.
-            .then(() => { setTimeout(mainCycle, 600000) });
+        ]);
 
     } catch (err) {
         console.log(err);
@@ -1334,12 +1332,14 @@ const mainCleanup = async () => {
  */
 const main = async () => {
     try {
-        mainCycle();
+        await mainCycle();
+        process.exit(0);
         //mainCleanup();
         //testCycle();
 
     } catch (err) {
         console.log(err);
+        process.exit(1);
     } // endtry
 } // endfun
 

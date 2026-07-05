@@ -1,0 +1,27 @@
+name: Firebase ETL Worker
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: backend/heroku-firebase
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'backend/heroku-firebase/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'backend/heroku-firebase/package-lock.json'
+      - run: npm ci
+      - run: node main.js
+        env:
+          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          NODE_ENV: production
