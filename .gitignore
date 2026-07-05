@@ -21,4 +21,4 @@ backend/heroku-baqend/cfg/firebaseAdminKey.json
 Thumbs.db
 
 # Raw data directories
-data/raw/
+**/data/raw/
