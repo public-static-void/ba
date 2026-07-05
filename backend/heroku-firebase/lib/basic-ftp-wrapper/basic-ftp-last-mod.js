@@ -31,8 +31,7 @@ exports.basicFtpLastMod = async (filePath) => {
     try {
         // connect to ftp server.
         await client.access({
-            //host: "opendata.dwd.de",
-            host: "141.38.2.22",
+            host: "opendata.dwd.de",
             user: "anonymous",
             password: "",
             secure: false
@@ -64,8 +63,7 @@ exports.basicFtpLastModArr = async (dirPath, fileNameArr) => {
     try {
         // connect to ftp server.
         await client.access({
-            //host: "opendata.dwd.de",
-            host: "141.38.2.22",
+            host: "opendata.dwd.de",
             user: "anonymous",
             password: "",
             secure: false
@@ -74,10 +72,14 @@ exports.basicFtpLastModArr = async (dirPath, fileNameArr) => {
         let resultArr = [];
         // for each filename in the provided array...
         for (let fileName in fileNameArr) {
-            // ...get the timestamp of last modification and...
-            let interim = await client.lastMod(dirPath + fileNameArr[fileName]);
-            // ...add filename and corresponding timestamp to result array.
-            resultArr.push(fileNameArr[fileName] + ": " + interim.getTime());
+            try {
+                // ...get the timestamp of last modification and...
+                let interim = await client.lastMod(dirPath + fileNameArr[fileName]);
+                // ...add filename and corresponding timestamp to result array.
+                resultArr.push(fileNameArr[fileName] + ": " + interim.getTime());
+            } catch (err) {
+                console.log(err)
+            } // endtry
         } // endfor
 
         client.close();
