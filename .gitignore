@@ -19,3 +19,6 @@ backend/heroku-baqend/cfg/firebaseAdminKey.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Raw data directories
+data/raw/
