@@ -12,7 +12,7 @@
 // standard library imports.
 const util = require('util');
 const fs = require('fs');
-const { DOMParser } = require('xmldom');
+const { DOMParser } = require('@xmldom/xmldom');
 // promisified imports.
 const pfsr = { readFile: util.promisify(fs.readFile) };
 

@@ -7,16 +7,21 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node smoke-test.js",
+    "test:xmldom": "node test-xmldom-api.js",
+    "test:admzip": "node test-adm-zip.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "adm-zip": "^0.5.2",
+    "adm-zip": "^0.5.18",
     "firebase": "^11.8.1",
     "firebase-admin": "^12.1.1",
     "underscore": "1.13.8",
-    "xmldom": "^0.6.0"
+    "@xmldom/xmldom": "^0.9.10"
   }
 }

@@ -714,7 +714,13 @@ const connectToDb = async () => {
         await db.User.logout();
 
         // Login with a user who has admin permissions
-        await db.User.login("admin", "admin");
+        const baqendUser = process.env.BAQEND_ADMIN_USER;
+        const baqendPass = process.env.BAQEND_ADMIN_PASS;
+        if (!baqendUser || !baqendPass) {
+            console.error("FATAL: Baqend admin credentials not set. Define BAQEND_ADMIN_USER and BAQEND_ADMIN_PASS env vars.");
+            process.exit(1);
+        }
+        await db.User.login(baqendUser, baqendPass);
 
         // remove any rate limiting just in case there is some.
         await new db.message.Unban();

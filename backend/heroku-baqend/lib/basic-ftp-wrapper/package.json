@@ -1,0 +1,9 @@
+{
+  "name": "basic-ftp-wrapper",
+  "version": "1.0.0",
+  "description": "Wrapper for basic-ftp DWD weather data access",
+  "private": true,
+  "dependencies": {
+    "basic-ftp": "^4.6.6"
+  }
+}
