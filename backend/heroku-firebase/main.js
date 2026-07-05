@@ -1085,7 +1085,7 @@ const cycleOneMinRR = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(oneMinRRSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 oneMinRRTime = timeMapArrs[1];
@@ -1128,7 +1128,7 @@ const cycleTenMinRR = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinRRSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinRRTime = timeMapArrs[1];
@@ -1170,7 +1170,7 @@ const cycleTenMinFF = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinFFSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinFFTime = timeMapArrs[1];
@@ -1212,7 +1212,7 @@ const cycleTenMinTU = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(tenMinTUSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 tenMinTUTime = timeMapArrs[1];
@@ -1254,7 +1254,7 @@ const cycleMos = async () => {
             .then((fileNameArr) => { return checkArrUpdOnFtp(mosSourcePath, fileNameArr) });
 
         // wait for the two operations above to complete before proceding.
-        Promise.all([times, files])
+        return Promise.all([times, files])
             .then((timeMapArrs) => {
                 // update mapping of filenames and times. 
                 mosTime = timeMapArrs[1];
