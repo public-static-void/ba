@@ -23,6 +23,6 @@
     "firebase": "^11.8.1",
     "firebase-admin": "^12.1.1",
     "underscore": "1.13.8",
-    "@xmldom/xmldom": "^0.9.10"
+    "@xmldom/xmldom": "^0.9.12"
   }
 }
