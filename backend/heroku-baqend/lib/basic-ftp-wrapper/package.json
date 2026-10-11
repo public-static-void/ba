@@ -4,6 +4,6 @@
   "description": "Wrapper for basic-ftp DWD weather data access",
   "private": true,
   "dependencies": {
-    "basic-ftp": "^5.3.1"
+    "basic-ftp": "^6.2.1"
   }
 }
